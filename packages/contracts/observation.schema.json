@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zeoatap.local/contracts/observation.v1.json",
+  "title": "Observation v1",
+  "description": "What a detector saw in one analyzed frame. Detectors never make safety decisions; the core event engine does (ADR-002). Mirrors services/core/internal/eventengine/types.go.",
+  "type": "object",
+  "required": ["camera_id", "capture_ts", "source", "ai_available", "tracks"],
+  "additionalProperties": false,
+  "properties": {
+    "camera_id": {"type": "string", "minLength": 1},
+    "capture_ts": {"type": "string", "format": "date-time", "description": "Capture time (RTCP/NTP-mapped where available)."},
+    "source": {"type": "string", "minLength": 1, "description": "Model pipeline id, or MOCK for mock detectors. MOCK output must never be presented as real detection."},
+    "model_versions": {"type": "object", "additionalProperties": {"type": "string"}},
+    "ai_available": {"type": "boolean"},
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "degraded": {"type": "boolean"},
+        "reason": {"type": "string", "enum": ["", "black", "frozen", "blur", "obstructed", "view_changed", "ir_unsupported", "drops"]}
+      }
+    },
+    "tracks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "role", "score", "box"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "description": "Short-lived per-camera anonymous id. Never a person identifier (ADR-003)."},
+          "role": {"enum": ["infant", "adult"]},
+          "score": {"type": "number", "minimum": 0, "maximum": 1},
+          "box": {"type": "array", "items": {"type": "number", "minimum": 0, "maximum": 1}, "minItems": 4, "maxItems": 4, "description": "Normalized [x1,y1,x2,y2], y down."},
+          "pose_quality": {"type": "number", "minimum": 0, "maximum": 1},
+          "visibility": {"type": "number", "minimum": 0, "maximum": 1},
+          "held": {"type": "boolean"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "cameras": [
+    {"id": "cam1", "room_id": "infants-a", "zones": [
+      {"id": "door", "room_zone": "kitchen-door", "kind": "restricted",
+       "polygon": [{"X":0.8,"Y":0.5},{"X":1.0,"Y":0.5},{"X":1.0,"Y":1.0},{"X":0.8,"Y":1.0}]},
+      {"id": "table", "room_zone": "changing-table-1", "kind": "surface",
+       "polygon": [{"X":0.1,"Y":0.3},{"X":0.4,"Y":0.3},{"X":0.4,"Y":0.5},{"X":0.1,"Y":0.5}]}
+    ]}
+  ]
+}
