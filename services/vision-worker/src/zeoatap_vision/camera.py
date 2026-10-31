@@ -26,6 +26,17 @@ log = logging.getLogger(__name__)
 THUMB_W, THUMB_H = 160, 90
 
 
+class NoVideoError(RuntimeError):
+    """The ring buffer holds no video for the requested clip window."""
+
+
+def analysis_size(src_w: int, src_h: int, target_w: int) -> tuple[int, int]:
+    """Keep aspect ratio, never upscale, even dimensions (for the scaler)."""
+    w = min(target_w, src_w)
+    h = max(2, int(round(src_h * w / src_w / 2)) * 2)
+    return w - (w % 2), h
+
+
 class StreamState(str, Enum):
     CONNECTING = "CONNECTING"
     STREAMING = "STREAMING"
@@ -38,6 +49,7 @@ class SampledFrame:
     camera_id: str
     wall_ts: float
     gray: object  # numpy uint8 thumbnail
+    rgb: object = None  # numpy uint8 HxWx3, ~analysis_width wide; only when a real detector runs
 
 
 @dataclass
@@ -64,7 +76,8 @@ class CameraStats:
 class CameraWorker:
     def __init__(self, cfg: CameraConfig, queue_size: int = 8,
                  open_timeout_s: float = 5.0, read_timeout_s: float = 3.0,
-                 backoff: Backoff | None = None, clock: Callable[[], float] = time.time):
+                 backoff: Backoff | None = None, clock: Callable[[], float] = time.time,
+                 analysis_width: int | None = None):
         self.cfg = cfg
         self.ring = PacketRingBuffer(cfg.ring_seconds, cfg.ring_max_bytes)
         self.sampler = FrameSampler(cfg.target_fps)
@@ -73,6 +86,9 @@ class CameraWorker:
         self.state = StreamState.CONNECTING
         self._queue: deque[SampledFrame] = deque()
         self._queue_size = queue_size
+        # Width of the RGB analysis frame (None = gray thumbnail only). Memory
+        # stays bounded: queue_size frames of ~640x360x3 bytes per camera.
+        self.analysis_width = analysis_width
         self._qlock = threading.Lock()
         self._open_timeout, self._read_timeout = open_timeout_s, read_timeout_s
         self._clock = clock
@@ -130,7 +146,7 @@ class CameraWorker:
             try:
                 pkts = self.ring.snapshot(job.start, job.end)
                 if not pkts or self._template_stream is None:
-                    raise RuntimeError("no buffered video covers the requested window")
+                    raise NoVideoError("no buffered video covers the requested window")
                 sha = write_clip(pkts, self._template_stream, job.path)
                 self.stats.clips_written_total += 1
                 job.future.set_result((job.path, sha, not ready))
@@ -211,6 +227,10 @@ class CameraWorker:
                 self.stats.frames_decoded_total += 1
                 if self.sampler.should_sample(now):
                     gray = frame.reformat(width=THUMB_W, height=THUMB_H, format="gray").to_ndarray()
+                    rgb = None
+                    if self.analysis_width:
+                        w, h = analysis_size(frame.width, frame.height, self.analysis_width)
+                        rgb = frame.reformat(width=w, height=h, format="rgb24").to_ndarray()
                     self.stats.frames_sampled_total += 1
-                    self._offer(SampledFrame(self.cfg.id, now, gray))
+                    self._offer(SampledFrame(self.cfg.id, now, gray, rgb))
             self._finish_clip_jobs()

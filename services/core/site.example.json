@@ -1,0 +1,42 @@
+{
+  "facility": {"id": "f1", "name": "Sunflower Nursery"},
+  "rooms": [
+    {"id": "infants-a", "name": "Infants A"},
+    {"id": "toddlers", "name": "Toddlers"}
+  ],
+  "cameras": [
+    {
+      "id": "cam1",
+      "room_id": "infants-a",
+      "name": "Changing table",
+      "protected": true,
+      "authorized_by": "Facility director",
+      "authorized_at": "2026-10-01",
+      "authorization_scope": "Infant room A, opening hours; changing table and kitchen door only",
+      "enabled": true,
+      "zones": [
+        {"id": "table", "room_zone": "changing-table-1", "kind": "surface",
+         "polygon": [{"X": 0.1, "Y": 0.3}, {"X": 0.4, "Y": 0.3}, {"X": 0.4, "Y": 0.5}, {"X": 0.1, "Y": 0.5}]},
+        {"id": "door", "room_zone": "kitchen-door", "kind": "restricted",
+         "polygon": [{"X": 0.8, "Y": 0.5}, {"X": 1.0, "Y": 0.5}, {"X": 1.0, "Y": 1.0}, {"X": 0.8, "Y": 1.0}]}
+      ]
+    },
+    {
+      "id": "cam2",
+      "room_id": "infants-a",
+      "name": "Room overview",
+      "protected": false,
+      "authorized_by": "Facility director",
+      "authorized_at": "2026-10-01",
+      "authorization_scope": "Infant room A, opening hours",
+      "zones": [
+        {"id": "door-b", "room_zone": "kitchen-door", "kind": "restricted",
+         "polygon": [{"X": 0.0, "Y": 0.4}, {"X": 0.3, "Y": 0.4}, {"X": 0.3, "Y": 1.0}, {"X": 0.0, "Y": 1.0}]}
+      ]
+    }
+  ],
+  "rules": {
+    "infant_off_surface": {"policy": "alert"},
+    "adult_in_restricted_zone": {"policy": "review"}
+  }
+}

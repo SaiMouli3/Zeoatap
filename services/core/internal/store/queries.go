@@ -154,16 +154,16 @@ func (d *DB) SetCameraState(ctx context.Context, cameraID, state string, since t
 
 type IncidentView struct {
 	eventengine.Incident
-	Lifecycle       string       `json:"lifecycle"`
-	EscalationLevel int          `json:"escalation_level"`
-	AcknowledgedBy  *string      `json:"acknowledged_by"`
-	AcknowledgedAt  *time.Time   `json:"acknowledged_at"`
-	Disposition     *string      `json:"disposition"`
-	ResolvedBy      *string      `json:"resolved_by"`
-	ResolvedAt      *time.Time   `json:"resolved_at"`
-	CreatedAt       time.Time    `json:"created_at"`
-	RetentionUntil  time.Time    `json:"retention_deadline"`
-	LegalHold       bool         `json:"legal_hold"`
+	Lifecycle       string     `json:"lifecycle"`
+	EscalationLevel int        `json:"escalation_level"`
+	AcknowledgedBy  *string    `json:"acknowledged_by"`
+	AcknowledgedAt  *time.Time `json:"acknowledged_at"`
+	Disposition     *string    `json:"disposition"`
+	ResolvedBy      *string    `json:"resolved_by"`
+	ResolvedAt      *time.Time `json:"resolved_at"`
+	CreatedAt       time.Time  `json:"created_at"`
+	RetentionUntil  time.Time  `json:"retention_deadline"`
+	LegalHold       bool       `json:"legal_hold"`
 }
 
 // IncidentDetail is an incident with its action history and evidence clips.

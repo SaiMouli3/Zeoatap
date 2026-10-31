@@ -1,0 +1,74 @@
+{
+  "schema_version": "1",
+  "dataset": {
+    "id": "example-synthetic",
+    "version": "0.1",
+    "split": "synthetic",
+    "locked": false,
+    "notes": "Illustrative only. Synthetic timings, no footage, no children."
+  },
+  "sessions": [
+    {
+      "session_id": "S-0001",
+      "facility_id": "F-7c2e",
+      "camera_id": "cam1",
+      "room_id": "infants-a",
+      "subject": "manikin-M2",
+      "consent_ids": [],
+      "t0": "2026-10-31T09:00:00Z",
+      "recording": {"resolution": "1280x720", "fps": 15, "codec": "h264", "source_file": "S-0001.mp4"},
+      "conditions": {"lighting": "day", "occlusion": "none", "camera_angle": "high_oblique", "camera_height_m": 2.4},
+      "operating_span": {"start_s": 0, "end_s": 600},
+      "events": [
+        {
+          "id": "S-0001-E001",
+          "event_type": "infant_off_surface",
+          "room_zone": "changing-table-1",
+          "start_s": 120.4,
+          "end_s": 121.6,
+          "visibility": "visible",
+          "annotator_confidence": "certain",
+          "annotators": ["ann-03", "ann-07"],
+          "adjudicated": true,
+          "adjudicator": "rev-01"
+        },
+        {
+          "id": "S-0001-E002",
+          "event_type": "adult_in_restricted_zone",
+          "room_zone": "kitchen-door",
+          "start_s": 300.0,
+          "end_s": 312.5,
+          "visibility": "partial",
+          "annotator_confidence": "likely",
+          "annotators": ["ann-03", "ann-07"],
+          "adjudicated": true,
+          "conditions": {"occlusion": "partial"}
+        }
+      ],
+      "hard_negatives": [
+        {"id": "S-0001-H001", "label": "adult_lifts_infant", "start_s": 400.0, "end_s": 404.0}
+      ]
+    },
+    {
+      "session_id": "S-0002",
+      "facility_id": "F-7c2e",
+      "camera_id": "cam2",
+      "room_id": "infants-a",
+      "conditions": {"lighting": "ir", "occlusion": "none", "camera_angle": "overhead"},
+      "operating_span": {"start": "2026-10-31T21:00:00Z", "end": "2026-10-31T21:10:00Z"},
+      "events": [
+        {
+          "id": "S-0002-E001",
+          "event_type": "infant_off_surface",
+          "room_zone": "crib-3",
+          "start": "2026-10-31T21:04:10.000Z",
+          "end": "2026-10-31T21:04:11.200Z",
+          "visibility": "visible",
+          "annotator_confidence": "certain",
+          "annotators": ["ann-03", "ann-07"],
+          "adjudicated": true
+        }
+      ]
+    }
+  ]
+}

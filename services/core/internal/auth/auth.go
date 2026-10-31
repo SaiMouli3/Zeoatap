@@ -26,13 +26,13 @@ const (
 type Permission string
 
 const (
-	PermViewStatus   Permission = "view_status"
-	PermAcknowledge  Permission = "acknowledge"
-	PermViewClips    Permission = "view_clips"
-	PermDisposition  Permission = "disposition"
-	PermViewShadow   Permission = "view_shadow"
-	PermAdmin        Permission = "admin"
-	PermLegalHold    Permission = "legal_hold"
+	PermViewStatus  Permission = "view_status"
+	PermAcknowledge Permission = "acknowledge"
+	PermViewClips   Permission = "view_clips"
+	PermDisposition Permission = "disposition"
+	PermViewShadow  Permission = "view_shadow"
+	PermAdmin       Permission = "admin"
+	PermLegalHold   Permission = "legal_hold"
 )
 
 var rolePerms = map[string]map[Permission]bool{
@@ -146,7 +146,9 @@ func Permissions(role string) []Permission {
 
 type ctxKey struct{}
 
-func WithUser(ctx context.Context, u *store.User) context.Context { return context.WithValue(ctx, ctxKey{}, u) }
+func WithUser(ctx context.Context, u *store.User) context.Context {
+	return context.WithValue(ctx, ctxKey{}, u)
+}
 
 func UserOf(ctx context.Context) *store.User {
 	u, _ := ctx.Value(ctxKey{}).(*store.User)

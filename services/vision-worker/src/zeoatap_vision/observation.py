@@ -51,14 +51,19 @@ def iso_utc(ts: float) -> str:
 
 
 def build_observation(camera_id: str, ts: float, quality: QualityResult, detector: Detector,
-                      tracks: list[dict], ts_source: str = "receive") -> dict:
+                      tracks: list[dict], ts_source: str = "receive", ai_available: bool | None = None) -> dict:
+    """ai_available defaults to the detector's state; the worker passes False
+    for a frame whose inference failed, so an empty track list is never
+    mistaken for "nobody there"."""
+    if ai_available is None:
+        ai_available = detector.available
     return {
         "camera_id": camera_id,
         "capture_ts": iso_utc(ts),
         "ts_source": ts_source,
         "source": detector.name,
         "model_versions": dict(detector.model_versions),
-        "ai_available": bool(detector.available),
+        "ai_available": bool(ai_available),
         "quality": quality.as_dict(),
         "tracks": tracks,
     }
@@ -79,3 +84,6 @@ class JsonlSink:
             self._out.write(line + "\n")
             self._out.flush()
             self.written += 1
+
+    def status(self) -> dict:
+        return {"kind": "jsonl", "written_total": self.written}

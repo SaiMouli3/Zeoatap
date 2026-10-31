@@ -100,7 +100,12 @@ def evaluate_goal(et: str, m: dict, g: Goal | None, confidence: float, sided: st
     if g.recall_lower is not None:
         req = required_n(g, confidence, sided)
         lo = clopper_pearson(tp, n, confidence, side).lower
-        if n < req["n_required"]:
+        hi = clopper_pearson(tp, n, confidence, "two").upper
+        if n and hi < g.recall_lower:
+            checks.append(_check("recall", "FAIL",
+                                 f"recall {tp}/{n}: even the upper bound {hi:.4f} is below the goal {g.recall_lower}",
+                                 lower_bound=lo, **req))
+        elif n < req["n_required"]:
             checks.append(_check("recall", "INSUFFICIENT_DATA",
                                  f"n={n} positives < {req['n_required']} required to claim recall >= {g.recall_lower} "
                                  f"(pre-registered {req['n_min_preregistered']}, rule of three {req['n_rule_of_three']}, "
@@ -137,7 +142,12 @@ def evaluate_goal(et: str, m: dict, g: Goal | None, confidence: float, sided: st
         k = m["false_alerts"]
         up = poisson_rate_interval(k, hrs, confidence, "upper" if sided == "one" else "two") if hrs > 0 else None
         ub = up.upper if up else math.inf
-        if hrs < need:
+        lb = poisson_rate_interval(k, hrs, confidence, "two").lower if hrs > 0 else 0.0
+        if lb > g.fa_per_camera_hour:
+            checks.append(_check("false alerts / camera-hour", "FAIL",
+                                 f"{k} false alerts in {hrs:.2f} h: even the lower bound {lb:.5f} exceeds the goal "
+                                 f"{g.fa_per_camera_hour}", upper_bound=ub, hours_required=need))
+        elif hrs < need:
             checks.append(_check("false alerts / camera-hour", "INSUFFICIENT_DATA",
                                  f"{hrs:.2f} operational camera-hours < {need:.1f} needed to bound the rate below "
                                  f"{g.fa_per_camera_hour} (observed {k})", upper_bound=ub, hours_required=need))
