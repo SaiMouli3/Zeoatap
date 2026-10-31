@@ -263,14 +263,15 @@ func (s *Server) handle(ctx context.Context, ev eventengine.Output) {
 				"event_type": inc.EventType, "status": inc.Status, "rule_version": inc.RuleVersion,
 				"model_versions": inc.ModelVersions, "source": inc.Source})
 		}
-		// Raise is idempotent per level, so a merge that upgrades an
-		// incident to ALERTED raises it exactly once.
+		// Clients learn of the incident before its alert. Raise is
+		// idempotent per level, so a merge that upgrades an incident to
+		// ALERTED raises it exactly once.
+		s.publishIncident(ev.Kind, inc)
 		if inc.Status == eventengine.StatusAlerted {
 			if err := s.Alerts.Raise(ctx, *inc, 0); err != nil {
 				s.Log.Error("raise alert", "incident", inc.ID, "err", err)
 			}
 		}
-		s.publishIncident(ev.Kind, inc)
 		s.scheduleClip(inc.ID, ev.CameraID, inc.Start)
 	}
 }

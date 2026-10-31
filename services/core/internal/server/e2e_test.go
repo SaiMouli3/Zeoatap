@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"io"
 	"net/http"
+	"path/filepath"
 	"strings"
-	"sync"
 	"testing"
 	"time"
 
@@ -175,14 +175,4 @@ func TestEndToEnd(t *testing.T) {
 	}
 }
 
-func filepathGlob(dir string) ([]string, error) {
-	return filepathGlobPattern(dir + "/*")
-}
-
-var globMu sync.Mutex
-
-func filepathGlobPattern(p string) ([]string, error) {
-	globMu.Lock()
-	defer globMu.Unlock()
-	return globFn(p)
-}
+func filepathGlob(dir string) ([]string, error) { return filepath.Glob(filepath.Join(dir, "*")) }
