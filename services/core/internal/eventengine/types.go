@@ -45,6 +45,7 @@ type Quality struct {
 type Observation struct {
 	CameraID      string            `json:"camera_id"`
 	CaptureTS     time.Time         `json:"capture_ts"`
+	TSSource      string            `json:"ts_source,omitempty"` // rtcp | receive
 	Source        string            `json:"source"`
 	ModelVersions map[string]string `json:"model_versions"`
 	Quality       Quality           `json:"quality"`

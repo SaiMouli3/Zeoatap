@@ -70,6 +70,17 @@ func run(cfgPath, obsPath string) error {
 			return fmt.Errorf("line %d: %w", line, err)
 		}
 		mock = mock || o.Source == eventengine.SourceMock
+		// Advance the clock to this observation first, so a gap in a camera's
+		// stream is reported as unavailable before it resumes.
+		ticked, err := eng.Tick(o.CaptureTS)
+		if err != nil {
+			return err
+		}
+		for _, ev := range ticked {
+			if err := enc.Encode(ev); err != nil {
+				return err
+			}
+		}
 		out, err := eng.Process(o)
 		if err != nil {
 			return fmt.Errorf("line %d: %w", line, err)

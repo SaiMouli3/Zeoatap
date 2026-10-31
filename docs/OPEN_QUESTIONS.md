@@ -30,6 +30,7 @@
 | OQ-L6 | Are body keypoints "biometric" under BIPA/CUBI/CPRA/GDPR? | Treat as sensitive. Never persist outside incidents |
 | OQ-L7 | Mandatory-reporting interplay: what must the facility do when a reviewer sees a concern? | Facility's existing safeguarding policy applies. We provide evidence export |
 | OQ-L8 | Parent consent model: opt-in vs. notice? Per child or per room? | Written notice + opt-in for any research use |
+| OQ-L10 | Which FFmpeg build do the PyAV wheels bundle (LGPL-only or with GPL codecs)? Does the appliance need its own LGPL FFmpeg build? | Assume an LGPL-only build is required; verify before shipping |
 | OQ-L9 | Is a patent freedom-to-operate review needed (infant posture patent US 20240193809)? | Yes, before productizing posture detection |
 
 ## Research references

@@ -29,10 +29,10 @@ Services are created only when their phase starts. No empty placeholders.
 | # | Task | Depends | Deliverable | Acceptance | ed |
 |---|---|---|---|---|---|
 | 1.1 | Observation contract v1 (protobuf + JSON Schema) | — | `packages/contracts` | Contract tests pass | 2 (**started**) |
-| 1.2 | RTSP simulator from files (MediaMTX/GStreamer) | — | `infra/sim` | Streams 16 files in loop | 2 |
-| 1.3 | vision-worker ingest + reconnect + health | 1.1, 1.2 | Python service | Fault tests for disconnect/freeze pass | 8 |
-| 1.4 | Ring buffer + clip cutting (remux, no transcode) | 1.3 | Clip API | Clip hash stable. Pre-event 30 s available | 5 |
-| 1.5 | core: health aggregation + monitoring states | 1.1 | Go package | Unit tests: green only when fresh | 4 |
+| 1.2 | RTSP simulator from files (MediaMTX/GStreamer) | — | `infra/sim` | Streams 16 files in loop | 2 (**partly done**: live tests run MediaMTX + ffmpeg synthetic cameras; a standalone multi-file looping simulator is not built yet) |
+| 1.3 | vision-worker ingest + reconnect + health | 1.1, 1.2 | Python service | Fault tests for disconnect/freeze pass | 8 (**done** for one camera over real RTSP: reconnect, black/obstructed/frozen checks, 5/15 fps sampling, `/healthz` `/readyz` `/metrics`. Frozen detection is unit-tested only) |
+| 1.4 | Ring buffer + clip cutting (remux, no transcode) | 1.3 | Clip API | Clip hash stable. Pre-event 30 s available | 5 (**done**: remuxed H.264 clips decode cleanly; clips cut by an outage are marked partial. Not yet encrypted at rest) |
+| 1.5 | core: health aggregation + monitoring states | 1.1 | Go package | Unit tests: green only when fresh | 4 (**done** in the engine and replay; tested end to end with live vision-worker output. No long-running core service yet) |
 | 1.6 | Postgres schema + migrations | — | `infra/migrations` | Migrate up/down in CI | 2 (**started**) |
 | 1.7 | Prometheus metrics + Grafana dashboards | 1.3, 1.5 | Dashboards | All metrics in OBSERVABILITY list present | 3 |
 | 1.8 | Minimal web: login + health page | 1.5 | `apps/web` | US-01, US-10 pass | 8 |
@@ -59,10 +59,10 @@ See FEATURE_ROADMAP. Tasks are broken down at each phase start.
 1. Engage counsel for the pilot jurisdiction (0.1)
 2. Recruit partner facility + site survey (0.4)
 3. Send ACLab/ICVD licensing enquiries (0.3)
-4. Procure a dev GPU workstation (0.7)
-5. Finalize the Observation contract as protobuf (1.1)
-6. Build the RTSP file simulator (1.2)
-7. vision-worker ingest + health (1.3)
-8. Ring buffer + clip cutting (1.4)
-9. Integrate the existing Go event-engine health states with real observations (1.5)
-10. Re-run the GPU benchmark (1.9, done on cloud) on the chosen edge SKU and add NVDEC decode throughput
+4. Record manikin test video for the no-training accuracy check (Phase 2 prerequisite)
+5. Replace the JSONL hand-off with a gRPC stream into a long-running core service (1.1, 1.5)
+6. Postgres-backed incident store + migrations tested in CI (1.6)
+7. Encrypt clips at rest and add retention deletion (1.4 follow-up)
+8. Multi-camera soak: 4–16 simulated cameras, CPU/decode limits measured (1.10)
+9. Minimal web: login + room health page (1.8)
+10. Re-run the GPU benchmark on the chosen edge SKU (L4) and add NVDEC decode throughput (1.9)

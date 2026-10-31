@@ -1,0 +1,16 @@
+{
+  "cameras": [
+    {
+      "id": "cam1",
+      "url": "rtsp://192.168.10.21:554/stream2",
+      "credentials_env": "CAM1_RTSP_CREDS",
+      "protected": false
+    },
+    {
+      "id": "cam2-changing-table",
+      "url": "rtsp://192.168.10.22:554/stream2",
+      "credentials_env": "CAM2_RTSP_CREDS",
+      "protected": true
+    }
+  ]
+}

@@ -11,10 +11,11 @@ A **safety-support** system for licensed infant-care facilities. It watches *aut
 | Research, architecture, validation, privacy and cost documentation | **Verified** sources, documented in `docs/` |
 | Event engine (rules, temporal state machine, dedup, idempotency, monitoring states) | **Implemented and tested** (Go unit tests, mock data only) |
 | Offline replay CLI | **Implemented and tested** with a **MOCK** observation fixture |
-| Observation contract (JSON Schema) | Implemented, but not yet validated by contract tests |
+| Observation contract (JSON Schema) | Implemented. vision-worker output is validated against it in tests |
 | Postgres migration | Implemented, **not tested** (no DB in this environment) |
 | GPU inference-speed benchmark (YOLOX, RT-DETR, RTMPose, RTMO; ORT + TensorRT) | **Run** on an AWS RTX PRO 4500 Blackwell with synthetic inputs. **Speed only, not accuracy.** See [BENCHMARK_RESULTS](docs/BENCHMARK_RESULTS.md) |
-| Video ingest, detector, tracker, pose, dashboard, alerting | **Not implemented** (planned, see `docs/IMPLEMENTATION_PLAN.md`) |
+| Camera ingest (RTSP), reconnect, image-quality checks, rolling buffer, clip cutting, health/metrics endpoints | **Implemented and tested** on synthetic RTSP cameras (MediaMTX + ffmpeg). No real camera tested yet |
+| Detector, tracker, pose, dashboard, alerting | **Not implemented** (planned, see `docs/IMPLEMENTATION_PLAN.md`) |
 | Infant-specific models (FiDIP, InfAct) | **Blocked by license** (non-commercial) |
 | Breathing estimation | **Research only. Not a product feature** |
 
@@ -31,6 +32,14 @@ go run ./cmd/replay -config ../../tests/fixtures/cameras.json \
 ```
 The fixture is **synthetic MOCK detector output**. The replay prints a `WARNING` and every incident carries `"source":"MOCK"`.
 
+Camera ingest (Python ≥ 3.12, [uv](https://github.com/astral-sh/uv), ffmpeg):
+```bash
+cd services/vision-worker
+uv run pytest -q                      # unit tests; live RTSP tests also run if MediaMTX is available
+uv run zeoatap-vision --config cameras.json --detector none
+```
+See [services/vision-worker/README.md](services/vision-worker/README.md).
+
 ## Repository layout
 ```
 docs/                      Research, requirements, architecture, validation, privacy, cost, roadmap
@@ -38,6 +47,7 @@ docs/architecture/adr/     Architecture decision records
 docs/architecture/diagrams Mermaid diagrams (validated to render)
 packages/contracts/        Observation JSON Schema
 services/core/             Go event engine + replay CLI
+services/vision-worker/    Python camera ingest, health checks, clip buffer (src/, tests/)
 infra/migrations/          Postgres schema (untested)
 services/vision-worker/benchmark/  GPU latency benchmark harness (uv-locked)
 tests/fixtures/            MOCK observation streams

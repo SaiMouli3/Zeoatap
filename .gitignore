@@ -13,3 +13,10 @@ datasets/
 .env
 *.key
 node_modules/
+
+# Personal Claude Code settings
+.claude/settings.local.json
+.tools/
+.venv/
+__pycache__/
+.pytest_cache/

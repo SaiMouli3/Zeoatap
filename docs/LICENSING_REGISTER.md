@@ -26,6 +26,10 @@
 | zeenolife/ai-baby-monitor | Code | MIT | — | ✅ (pattern only) | © 2025 Almaz Zinollayev | — | raw…/zeenolife/ai-baby-monitor/master/LICENSE | Not used |
 | AIR-400 code | Code | MIT | **Data: ACLab non-commercial, "not … for incorporation into a product"** | ✅ code; ❌ data; checkpoints ⚠️ | — | Checkpoint terms | raw…/michaelwwan/air-400/main/README.md ; ostadabbas.sites.northeastern.edu/datasets | Research only |
 | ONNX Runtime | Runtime | MIT | — | ✅ | — | — | PyPI | Candidate |
+| PyAV (`av`) | Library (vision-worker) | BSD-3-Clause | Binary wheels bundle FFmpeg libraries (LGPL; check the build's codec set for GPL parts) | ✅ with LGPL obligations for the bundled FFmpeg | Notices | Confirm the wheel's FFmpeg build configuration before shipping (OQ-L10) | PyPI | **In use** |
+| NumPy | Library | BSD-3-Clause | — | ✅ | Notice | — | PyPI | **In use** |
+| MediaMTX | Test tool (RTSP server) | MIT | — | ✅ (tests only, not shipped) | — | Release checksum file was not found at the expected URL, so the binary is unverified | github.com/bluenviron/mediamtx | Tests only |
+| FFmpeg CLI | Test tool (synthetic cameras) | LGPL/GPL depending on build | — | Tests only, not shipped | — | — | Ubuntu package | Tests only |
 | TensorRT | Runtime | **NVIDIA proprietary** | — | ✅ under NVIDIA SLA | Per SLA | Redistribution terms (OQ-L4) | PyPI | Candidate |
 | DeepStream SDK | Runtime | **NVIDIA proprietary** | — | ✅ under NVIDIA license | Per license | OQ-L4 | docs.nvidia.com | Evaluate |
 | vLLM | Runtime | Apache-2.0 | — | ✅ | — | — | — | Candidate (P2) |

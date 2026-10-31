@@ -52,4 +52,4 @@ Auth bypass, IDOR on clip IDs, token expiry, RBAC matrix enforcement, secrets-in
 | Bad config | invalid YAML | Keep last-known-good |
 
 ## 8. Executed in this repository (updated 2026-10-31)
-Go unit tests for `services/core/internal/eventengine` run with `go test ./...`. The GPU inference-speed benchmark (`services/vision-worker/benchmark`) ran on an AWS GPU on synthetic inputs ([BENCHMARK_RESULTS](BENCHMARK_RESULTS.md)). No cameras, footage or trained models have been used. No accuracy has been measured.
+Go unit tests for `services/core/internal/eventengine` run with `go test ./...`. vision-worker: 16 unit tests plus 7 live tests over real RTSP (MediaMTX + ffmpeg synthetic test patterns), covering connect, 5 and 15 fps sampling, camera outage and recovery, clip remux, partial clips, black-camera detection, and vision-worker → Go engine end to end. The GPU inference-speed benchmark (`services/vision-worker/benchmark`) ran on an AWS GPU on synthetic inputs ([BENCHMARK_RESULTS](BENCHMARK_RESULTS.md)). No cameras, footage or trained models have been used. No accuracy has been measured.
