@@ -1,0 +1,16 @@
+[project]
+name = "zeoatap-soak"
+version = "0.1.0"
+description = "Multi-camera soak/stress test for vision-worker (synthetic RTSP cameras only)"
+requires-python = ">=3.12"
+dependencies = ["psutil==7.1.3"]
+
+[dependency-groups]
+dev = ["pytest==8.4.2"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

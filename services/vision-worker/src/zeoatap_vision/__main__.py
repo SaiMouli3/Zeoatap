@@ -30,7 +30,8 @@ def build_detector(args):
             from .pipeline import PosePipeline
             det = PosePipeline(detector_model=args.det_model, pose_model=args.pose_model,
                                model_dir=args.model_dir, device=args.device, threads=args.threads,
-                               frame_width=args.analysis_width)
+                               frame_width=args.analysis_width,
+                               infant_pose_model=None if args.infant_pose_model == "none" else args.infant_pose_model)
         except (ModelMissing, ImportError) as e:
             # Keep running for camera health; core shows AI_UNAVAILABLE, never green.
             logging.error("pose pipeline unavailable (%s); running with ai_available=false", e)
@@ -43,7 +44,7 @@ def build_detector(args):
 
 
 def main(argv: list[str] | None = None) -> int:
-    from .models import DEFAULT_DETECTOR, DEFAULT_POSE, MODELS
+    from .models import DEFAULT_DETECTOR, DEFAULT_INFANT_POSE, DEFAULT_POSE, MODELS
 
     ap = argparse.ArgumentParser(prog="zeoatap-vision")
     ap.add_argument("--config", required=True, help="camera config JSON")
@@ -60,6 +61,10 @@ def main(argv: list[str] | None = None) -> int:
                     default=DEFAULT_DETECTOR)
     ap.add_argument("--pose-model", choices=[m for m, s in MODELS.items() if s.kind == "pose"],
                     default=DEFAULT_POSE)
+    ap.add_argument("--infant-pose-model", default=DEFAULT_INFANT_POSE,
+                    choices=[m for m, s in MODELS.items() if s.kind == "infant_pose"] + ["none"],
+                    help="FiDIP model for tracks classified as infant (fidip-mobile for CPU, "
+                         "fidip-hrnet-w48 for GPU); 'none' = RTMPose for everyone")
     ap.add_argument("--model-dir", default=None, help="default: $ZEOATAP_MODEL_DIR or services/vision-worker/models")
     ap.add_argument("--device", choices=["auto", "cpu"], default="auto",
                     help="auto = TensorRT > CUDA > CPU, whichever onnxruntime offers")

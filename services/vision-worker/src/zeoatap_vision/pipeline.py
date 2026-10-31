@@ -4,6 +4,8 @@
     -> ByteTrack-style tracker (per camera, anonymous short-lived ids)
     -> RTMPose on person crops (batched) -> pose_quality, visibility
     -> role classifier (infant/adult; UNVALIDATED heuristic baseline)
+    -> FiDIP infant pose on crops classified as infant (replaces RTMPose
+       keypoints for those tracks; RTMPose is the fallback if FiDIP is absent)
     -> held state (AI_MODEL_STRATEGY §3.1)
     -> Observation tracks with boxes normalized to [0,1].
 
@@ -23,8 +25,8 @@ import numpy as np
 
 from . import held as held_mod
 from . import roles as roles_mod
-from .inference import PersonDetector, PoseEstimator, pick_providers
-from .models import DEFAULT_DETECTOR, DEFAULT_POSE, MODELS, resolve
+from .inference import InfantPoseEstimator, PersonDetector, PoseEstimator, pick_providers
+from .models import DEFAULT_DETECTOR, DEFAULT_INFANT_POSE, DEFAULT_POSE, MODELS, ModelMissing, resolve
 from .tracker import ByteTracker
 
 log = logging.getLogger(__name__)
@@ -60,12 +62,16 @@ class PosePipeline:
                  frame_width: int = 640,
                  role_classifier: roles_mod.RoleClassifier | None = None,
                  held_params: held_mod.HeldParams | None = None, max_people: int = 16,
-                 components: tuple | None = None):
+                 components: tuple | None = None, infant_pose_model: str | None = DEFAULT_INFANT_POSE):
         """components=(detector, pose) injects ready callables (tests); otherwise
         the ONNX models are resolved, hash-verified and loaded."""
         dspec, pspec = MODELS[detector_model], MODELS[pose_model]
+        self.infant_pose = None
+        ipspec = None
         if components is not None:
-            self.detector, self.pose = components
+            self.detector, self.pose = components[:2]
+            if len(components) > 2 and components[2] is not None:
+                self.infant_pose, ipspec = components[2], MODELS[infant_pose_model or DEFAULT_INFANT_POSE]
         else:
             providers = pick_providers(device)
             # score_thr 0.1: low-score detections feed ByteTrack's second association stage.
@@ -73,6 +79,15 @@ class PosePipeline:
                                            score_thr=0.1, threads=threads)
             self.pose = PoseEstimator(resolve(pose_model, model_dir), pspec.input_size, providers,
                                       threads=threads, max_batch=max_people)
+            if infant_pose_model:
+                ipspec = MODELS[infant_pose_model]
+                try:
+                    self.infant_pose = InfantPoseEstimator(
+                        resolve(infant_pose_model, model_dir), ipspec.input_size, providers,
+                        softmax_output=infant_pose_model == "fidip-mobile", threads=threads, max_batch=max_people)
+                except ModelMissing as e:
+                    log.warning("infant pose model unavailable (%s); RTMPose is used for infants too", e)
+                    ipspec = None
         self.frame_width = frame_width
         self.roles = role_classifier or roles_mod.ProportionRoleClassifier()
         self.role_smoother = roles_mod.RoleSmoother()
@@ -85,6 +100,7 @@ class PosePipeline:
             "tracker": TRACKER_VERSION,
             "role": self.roles.version,
             "held": held_mod.VERSION,
+            "infant_pose": ipspec.version if (ipspec and self.infant_pose is not None) else "none(rtmpose-fallback)",
             "runtime": f"onnxruntime/{self.provider}",
             "validation": "UNVALIDATED-pretrained-not-infant-not-cctv",
         }
@@ -93,7 +109,7 @@ class PosePipeline:
         self.frames_total = 0
         self.errors_total = 0
         self.consecutive_errors = 0
-        self.last_ms = {"detect": 0.0, "track": 0.0, "pose": 0.0, "total": 0.0}
+        self.last_ms = {"detect": 0.0, "track": 0.0, "pose": 0.0, "infant_pose": 0.0, "total": 0.0}
         self.total_ms_sum = 0.0
 
     @property
@@ -142,6 +158,14 @@ class PosePipeline:
                            "kpts": kpts[i] if i < len(kpts) else None,
                            "kpt_scores": kscores[i] if i < len(kscores) else None,
                            "pose_quality": pq, "visibility": vis})
+        t3b = time.perf_counter()
+        infants = [p for p in people if p["role"] == "infant"]
+        if infants and self.infant_pose is not None:
+            ik, isc = self.infant_pose(rgb, np.stack([p["box"] for p in infants]))
+            for p, k, sc in zip(infants, ik, isc):
+                p["kpts"], p["kpt_scores"] = k, sc
+                p["pose_quality"], p["visibility"] = pose_metrics(sc)
+        t3c = time.perf_counter()
         held_mod.compute_held(people, self.held)
 
         out = [{
@@ -156,7 +180,7 @@ class PosePipeline:
         t4 = time.perf_counter()
         self.frames_total += 1
         self.last_ms = {"detect": (t1 - t0) * 1e3, "track": (t2 - t1) * 1e3,
-                        "pose": (t3 - t2) * 1e3, "total": (t4 - t0) * 1e3}
+                        "pose": (t3 - t2) * 1e3, "infant_pose": (t3c - t3b) * 1e3, "total": (t4 - t0) * 1e3}
         self.total_ms_sum += self.last_ms["total"]
         return out
 

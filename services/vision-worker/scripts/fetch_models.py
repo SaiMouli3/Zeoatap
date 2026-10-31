@@ -120,7 +120,8 @@ def main() -> int:
     out.mkdir(parents=True, exist_ok=True)
     mf = out / "manifest.json"
     manifest = json.loads(mf.read_text()) if mf.exists() else {}
-    names = list(MODELS) if args.all else [DEFAULT_DETECTOR, DEFAULT_POSE]
+    # FiDIP (kind infant_pose) is exported by scripts/export_fidip.py, not fetched here.
+    names = [n for n, s in MODELS.items() if s.onnx_sha256] if args.all else [DEFAULT_DETECTOR, DEFAULT_POSE]
     for n in names:
         fetch_model(n, out, manifest)
         mf.write_text(json.dumps(manifest, indent=2) + "\n")
