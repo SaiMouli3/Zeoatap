@@ -42,14 +42,7 @@ func run(cfgPath, obsPath string) error {
 		return fmt.Errorf("config: %w", err)
 	}
 
-	// Pilot defaults. A1 has an alert policy but is not validated, so it can
-	// only ever produce SHADOW incidents here.
-	rules := []eventengine.Rule{
-		&eventengine.AdultInRestrictedZone{MinScore: 0.5, Cfg: eventengine.RuleConfig{
-			MinDuration: 2 * time.Second, MergeGap: 30 * time.Second, Bucket: time.Minute, Policy: eventengine.PolicyReview}},
-		&eventengine.InfantOffSurface{MinScore: 0.4, MinVisibility: 0.5, Recent: 2 * time.Second, Cfg: eventengine.RuleConfig{
-			MinDuration: 500 * time.Millisecond, MergeGap: 10 * time.Second, Bucket: time.Minute, Policy: eventengine.PolicyAlert}},
-	}
+	rules := eventengine.DefaultRules(nil)
 	store := eventengine.NewMemoryStore()
 	eng := eventengine.New(cfg.Cameras, rules, store)
 

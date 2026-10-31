@@ -17,6 +17,12 @@ dev = [
 [project.scripts]
 zeoatap-vision = "zeoatap_vision.__main__:main"
 
+[project.optional-dependencies]
+pose = [
+    "onnxruntime>=1.20",
+    "rtmlib==0.0.16",
+]
+
 [build-system]
 requires = ["hatchling>=1.25"]
 build-backend = "hatchling.build"

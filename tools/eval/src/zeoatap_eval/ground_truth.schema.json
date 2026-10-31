@@ -1,0 +1,444 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zeoatap.local/tools/eval/ground_truth.v1.json",
+  "title": "Zeoatap ground-truth annotations v1",
+  "description": "Event-level ground truth for SAFETY_VALIDATION §3-§4. One file holds one or more recording sessions. All ids are pseudonymous. Times are RFC 3339 (start/end) or seconds from the session's t0 (start_s/end_s); never both in one event.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "sessions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1"
+    },
+    "dataset": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "split": {
+          "enum": [
+            "train",
+            "validation",
+            "test",
+            "ood_test",
+            "pilot",
+            "synthetic"
+          ]
+        },
+        "locked": {
+          "type": "boolean",
+          "description": "Test sets must be locked before evaluation (SAFETY_VALIDATION §3.2)."
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "sessions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/session"
+      }
+    }
+  },
+  "$defs": {
+    "time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "session": {
+      "type": "object",
+      "required": [
+        "session_id",
+        "facility_id",
+        "camera_id",
+        "conditions",
+        "operating_span",
+        "events"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "session_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "facility_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Pseudonymous facility id."
+        },
+        "camera_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Primary camera; must equal the camera id used by vision-worker/core."
+        },
+        "extra_camera_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Other cameras covering the same room zones. An incident is in scope for this session if its cameras intersect camera_id + extra_camera_ids."
+        },
+        "room_id": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Pseudonymous subject id, e.g. manikin-M2. Never a child's name."
+        },
+        "consent_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "t0": {
+          "$ref": "#/$defs/time",
+          "description": "Wall time of video frame 0. Required when events use start_s/end_s."
+        },
+        "recording": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "resolution": {
+              "type": "string",
+              "pattern": "^[0-9]+x[0-9]+$"
+            },
+            "fps": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "codec": {
+              "type": "string"
+            },
+            "source_file": {
+              "type": "string"
+            }
+          }
+        },
+        "conditions": {
+          "type": "object",
+          "required": [
+            "lighting",
+            "occlusion",
+            "camera_angle"
+          ],
+          "additionalProperties": true,
+          "description": "Session-level strata. Events may override any key in their own conditions.",
+          "properties": {
+            "lighting": {
+              "enum": [
+                "day",
+                "ir",
+                "low_light",
+                "mixed"
+              ]
+            },
+            "occlusion": {
+              "enum": [
+                "none",
+                "partial",
+                "heavy"
+              ]
+            },
+            "camera_angle": {
+              "enum": [
+                "overhead",
+                "high_oblique",
+                "low_oblique",
+                "eye_level"
+              ]
+            },
+            "camera_height_m": {
+              "type": "number"
+            }
+          }
+        },
+        "operating_span": {
+          "type": "object",
+          "description": "The time the session was annotated in full. Only this span counts as analyzed time; incidents outside it are out of scope.",
+          "oneOf": [
+            {
+              "required": [
+                "start",
+                "end"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "start_s"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "end_s"
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "required": [
+                "start_s",
+                "end_s"
+              ],
+              "not": {
+                "anyOf": [
+                  {
+                    "required": [
+                      "start"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "end"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "properties": {
+            "start": {
+              "$ref": "#/$defs/time"
+            },
+            "end": {
+              "$ref": "#/$defs/time"
+            },
+            "start_s": {
+              "type": "number",
+              "minimum": 0
+            },
+            "end_s": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/event"
+          }
+        },
+        "hard_negatives": {
+          "type": "array",
+          "description": "Staged non-events (rocking, adult lifts infant, placing on floor). Never counted as positives; incidents overlapping them are reported as false alerts on hard negatives.",
+          "items": {
+            "$ref": "#/$defs/hard_negative"
+          }
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "required": [
+        "id",
+        "event_type",
+        "visibility",
+        "annotator_confidence",
+        "annotators",
+        "adjudicated"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "required": [
+            "start",
+            "end"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "start_s"
+                ]
+              },
+              {
+                "required": [
+                  "end_s"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "required": [
+            "start_s",
+            "end_s"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "start"
+                ]
+              },
+              {
+                "required": [
+                  "end"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event_type": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Must equal the core rule's event_type, e.g. infant_off_surface, adult_in_restricted_zone, camera_offline."
+        },
+        "room_zone": {
+          "type": "string"
+        },
+        "start": {
+          "$ref": "#/$defs/time"
+        },
+        "end": {
+          "$ref": "#/$defs/time"
+        },
+        "start_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "end_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "visibility": {
+          "enum": [
+            "visible",
+            "partial",
+            "not_visible"
+          ]
+        },
+        "annotator_confidence": {
+          "enum": [
+            "certain",
+            "likely",
+            "unsure"
+          ]
+        },
+        "annotators": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          },
+          "description": "Pseudonymous annotator ids. Safety events need >= 2 (SAFETY_VALIDATION §3.1)."
+        },
+        "adjudicated": {
+          "type": "boolean",
+          "description": "True once a senior reviewer has resolved disagreements."
+        },
+        "adjudicator": {
+          "type": "string"
+        },
+        "severity_label": {
+          "type": "string"
+        },
+        "conditions": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Per-event overrides of the session conditions, e.g. {\"occlusion\": \"heavy\"}."
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "hard_negative": {
+      "type": "object",
+      "required": [
+        "id",
+        "label"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "required": [
+            "start",
+            "end"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "start_s"
+                ]
+              },
+              {
+                "required": [
+                  "end_s"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "required": [
+            "start_s",
+            "end_s"
+          ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [
+                  "start"
+                ]
+              },
+              {
+                "required": [
+                  "end"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "description": "e.g. adult_lifts_infant, rocking, placed_on_floor"
+        },
+        "start": {
+          "$ref": "#/$defs/time"
+        },
+        "end": {
+          "$ref": "#/$defs/time"
+        },
+        "start_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "end_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
