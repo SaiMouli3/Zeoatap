@@ -2,6 +2,8 @@
 
 **Checked:** 2026-10-27 by repository/model-card inspection. **Review status:** *Engineering review only. Not reviewed by counsel.* Re-check before every release.
 
+> **Owner decision (2026-10-31):** the project owner has taken responsibility for licensing and directed that the best available models may be used, including non-commercial ones. Rows marked "used at owner's direction" must have a commercial license (or be replaced) **before any sale or paid deployment**.
+
 | Component | Type | Code license | Weights / data license | Commercial use | Attribution | Unresolved | Source | Status |
 |---|---|---|---|---|---|---|---|---|
 | MMAction2 | Code | Apache-2.0 | Checkpoints trained on Kinetics/NTU etc. | ✅ code; ⚠️ weights | NOTICE + license | Weight provenance | raw.githubusercontent.com/open-mmlab/mmaction2/main/LICENSE | Candidate |
@@ -24,7 +26,7 @@
 | Phi-4-multimodal | Weights | MIT | — | ✅ | — | — | HF API | Alternative |
 | SAM 2 | Weights | Apache-2.0 | — | ✅ | — | — | HF API | Annotation tooling |
 | zeenolife/ai-baby-monitor | Code | MIT | — | ✅ (pattern only) | © 2025 Almaz Zinollayev | — | raw…/zeenolife/ai-baby-monitor/master/LICENSE | Not used |
-| AIR-400 code | Code | MIT | **Data: ACLab non-commercial, "not … for incorporation into a product"** | ✅ code; ❌ data; checkpoints ⚠️ | — | Checkpoint terms | raw…/michaelwwan/air-400/main/README.md ; ostadabbas.sites.northeastern.edu/datasets | Research only |
+| AIR-400 code | Code | MIT | **Data: ACLab non-commercial, "not … for incorporation into a product"** | ✅ code; ❌ data; checkpoints ⚠️ | — | Checkpoint terms | raw…/michaelwwan/air-400/main/README.md ; ostadabbas.sites.northeastern.edu/datasets | **Allowed for research at owner's direction (2026-10-31); license to be obtained before sale. Breathing is never an alert (medical-safety reason, independent of license)** |
 | ONNX Runtime | Runtime | MIT | — | ✅ | — | — | PyPI | Candidate |
 | PyAV (`av`) | Library (vision-worker) | BSD-3-Clause | Binary wheels bundle FFmpeg libraries (LGPL; check the build's codec set for GPL parts) | ✅ with LGPL obligations for the bundled FFmpeg | Notices | Confirm the wheel's FFmpeg build configuration before shipping (OQ-L10) | PyPI | **In use** |
 | NumPy | Library | BSD-3-Clause | — | ✅ | Notice | — | PyPI | **In use** |
@@ -35,10 +37,10 @@
 | vLLM | Runtime | Apache-2.0 | — | ✅ | — | — | — | Candidate (P2) |
 | **Ultralytics YOLO** | Code+weights | **AGPL-3.0** | AGPL / enterprise | ❌ unless enterprise license bought | — | — | …/ultralytics/ultralytics/main/LICENSE | **Excluded** |
 | **BoxMOT** | Code | **AGPL-3.0** | — | ❌ | — | — | …/mikel-brostrom/boxmot/master/LICENSE | **Excluded** |
-| **FiDIP** | Code | **Non-commercial** (README) | SyRIP: ACLab NC | ❌ | — | Commercial license? (OQ-L1) | raw…/ostadabbas/Infant-Pose-Estimation/master/README.md | **Research only** |
+| **FiDIP** | Code | **Non-commercial** (README) | SyRIP: ACLab NC | ❌ | — | Commercial license? (OQ-L1) | raw…/ostadabbas/Infant-Pose-Estimation/master/README.md | **Used at owner's direction (2026-10-31) — license to be obtained before sale. Trained on home photos: must be tested on CCTV video before relying on it** |
 | **Infant-Posture-Estimation** | Code | **Non-commercial** | MIMM private | ❌ | — | Patent (US 20240193809) | raw…/ostadabbas/Infant-Posture-Estimation/master/README.md | **Excluded** |
-| **InfAct / InfActPrimitive** | Code+data | Could not retrieve | ACLab NC (assumed) | ❌ assumed | — | Verify | CVPRW 2023 paper ; arXiv:2311.12300 | **Excluded until verified** |
-| **SyRIP, AIR-125/400, InfAnFace, NNS** | Data | — | **ACLab Non-commercial** | ❌ | — | — | ostadabbas.sites.northeastern.edu/datasets | **Research only** |
+| **InfAct / InfActPrimitive** | Code+data | Could not retrieve | ACLab NC (assumed) | ❌ assumed | — | Verify | CVPRW 2023 paper ; arXiv:2311.12300 | **Allowed at owner's direction (2026-10-31) — license to be obtained before sale. Not used in the pipeline yet (action recognition comes after detection/pose)** |
+| **SyRIP, AIR-125/400, InfAnFace, NNS** | Data | — | **ACLab Non-commercial** | ❌ | — | — | ostadabbas.sites.northeastern.edu/datasets | **Allowed at owner's direction (2026-10-31) — license to be obtained before sale. SyRIP's expanded set needs a password from the lab** |
 | **VideoMAE** | Code | **CC BY-NC 4.0** | — | ❌ | — | — | …/MCG-NJU/VideoMAE/main/LICENSE | **Excluded** |
 | **Sapiens** | Code+weights | **CC BY-NC 4.0** | — | ❌ | — | — | …/facebookresearch/sapiens/main/LICENSE | **Excluded** |
 | **Qwen2.5-VL-3B** | Weights | — | **Qwen Research License** | ❌ | — | — | huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct | **Excluded** |
