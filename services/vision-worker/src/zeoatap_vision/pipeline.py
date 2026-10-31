@@ -102,7 +102,7 @@ class PosePipeline:
             "held": held_mod.VERSION,
             "infant_pose": ipspec.version if (ipspec and self.infant_pose is not None) else "none(rtmpose-fallback)",
             "runtime": f"onnxruntime/{self.provider}",
-            "validation": "UNVALIDATED-pretrained-not-infant-not-cctv",
+            "validation": "UNVALIDATED-pretrained-weights-not-validated-for-childcare-cctv",
         }
         self._lock = threading.Lock()
         self.loaded = True

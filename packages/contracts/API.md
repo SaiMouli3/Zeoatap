@@ -4,7 +4,7 @@ Single source of truth for `services/core` (implements), `apps/web` (consumes) a
 
 ## Conventions
 - JSON everywhere. Errors: `{"error": "human-readable message"}` with a proper status code.
-- Every `POST` must send `Content-Type: application/json`, otherwise `415`. Together with `SameSite=Strict` cookies, this is the CSRF defence.
+- Every staff `POST` must send `Content-Type: application/json`, otherwise `415`. (The internal observation stream uses `application/x-ndjson`.) Together with `SameSite=Strict` cookies, this is the CSRF defence.
 - Staff auth: HttpOnly cookie `zeoatap_session` (15 min sliding idle timeout). `401` = not signed in, `403` = signed in but role lacks permission.
 - Times are RFC 3339 UTC strings.
 
