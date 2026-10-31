@@ -354,7 +354,7 @@ flowchart TB
 | Large facility | 32–64 | 2–4 edge nodes, or 1 node with 2 GPUs | Introduce NATS for observation fan-in. Shard cameras by room to keep room correlation on one node |
 | Multi-facility | N sites | Edge per site + multi-tenant control plane | Tenant isolation, fleet upgrades, remote ops |
 
-Capacity is calculated in [COST_AND_DEPLOYMENT.md](COST_AND_DEPLOYMENT.md) from measured per-model latencies. **No camera-per-GPU number is claimed before Phase 1 benchmarks.**
+Capacity is calculated in [COST_AND_DEPLOYMENT.md](COST_AND_DEPLOYMENT.md) from measured per-model latencies ([BENCHMARK_RESULTS](BENCHMARK_RESULTS.md)). The inference-only benchmark gives ≈46 cameras per GPU (YOLOX-M 640 + RTMPose-m, TensorRT FP16, RTX PRO 4500 Blackwell). **That is an upper bound, not a sizing claim:** decode, CPU and end-to-end limits come from the soak test (1.10) on the chosen edge SKU.
 
 ---
 

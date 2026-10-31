@@ -1,0 +1,42 @@
+[project]
+name = "zeoatap-gpu-benchmark"
+version = "0.1.0"
+description = "Phase 1 task 1.9: detector and pose-model latency benchmark (speed only, not accuracy)"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "numpy>=2.1",
+    "onnx>=1.18",
+    "onnxruntime-gpu[cuda,cudnn]>=1.23",
+    # TensorRT 11 removed BuilderFlag.FP16 (strongly-typed only); 10.x keeps the standard FP16 builder path.
+    "tensorrt-cu13>=10.13,<11",
+    # torch provides GPU buffers for the TensorRT runner (and is used for ONNX export).
+    "torch>=2.9",
+    "nvidia-ml-py>=12.570",
+    "rtmlib==0.0.16",
+]
+
+[dependency-groups]
+# Only needed to export YOLOX / RT-DETR to ONNX. Not needed to run the benchmark.
+export = [
+    "torchvision",
+    "transformers>=4.50",
+    "loguru",
+    "tabulate",
+    "psutil",
+    "thop",
+    "safetensors",
+]
+
+[tool.uv]
+default-groups = ["export"]
+# rtmlib depends on the CPU-only onnxruntime wheel, which shadows onnxruntime-gpu. Drop it.
+override-dependencies = ["onnxruntime; sys_platform == 'never'"]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu130" }
+torchvision = { index = "pytorch-cu130" }
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true

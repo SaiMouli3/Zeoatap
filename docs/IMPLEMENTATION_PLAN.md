@@ -6,7 +6,7 @@
 ```
 apps/web/                     Next.js dashboard                (not yet created)
 services/core/                Go: event engine, incidents, API (slice exists: eventengine + replay CLI)
-services/vision-worker/       Python: ingest, inference         (not yet created)
+services/vision-worker/       Python: ingest, inference         (only benchmark/ exists: GPU latency harness)
 packages/contracts/           Observation / incident schemas    (exists: JSON Schema)
 infra/                        compose, systemd, migrations      (exists: initial SQL migration)
 tests/fixtures/               synthetic observation streams     (exists: MOCK data)
@@ -36,7 +36,7 @@ Services are created only when their phase starts. No empty placeholders.
 | 1.6 | Postgres schema + migrations | — | `infra/migrations` | Migrate up/down in CI | 2 (**started**) |
 | 1.7 | Prometheus metrics + Grafana dashboards | 1.3, 1.5 | Dashboards | All metrics in OBSERVABILITY list present | 3 |
 | 1.8 | Minimal web: login + health page | 1.5 | `apps/web` | US-01, US-10 pass | 8 |
-| 1.9 | GPU benchmark harness | 0.7 | Benchmark report | t_det, t_pose measured for 3 candidates | 5 |
+| 1.9 | GPU benchmark harness | 0.7 | Benchmark report | t_det, t_pose measured for 3 candidates | 5 (**done** on a cloud GPU, see [BENCHMARK_RESULTS](BENCHMARK_RESULTS.md). Re-run on the edge SKU) |
 | 1.10 | 72 h soak | all | Soak report | 0 crashes, faults visible | 3 |
 
 ## Phase 2 (detection pipeline)
@@ -65,4 +65,4 @@ See FEATURE_ROADMAP. Tasks are broken down at each phase start.
 7. vision-worker ingest + health (1.3)
 8. Ring buffer + clip cutting (1.4)
 9. Integrate the existing Go event-engine health states with real observations (1.5)
-10. GPU benchmark harness for YOLOX/RT-DETR + RTMPose/RTMO (1.9)
+10. Re-run the GPU benchmark (1.9, done on cloud) on the chosen edge SKU and add NVDEC decode throughput

@@ -16,8 +16,8 @@
 | OQ-H1 | What cameras/NVRs exist at pilot sites (make, resolution, codec, fps, IR, mounting)? | 1080p H.264/H.265 PoE, IR, ceiling-corner mounts | Blocks Phase 1 site tests |
 | OQ-H2 | Which NVR brands need support? | Hikvision, Dahua, Axis, Uniview, Reolink | No |
 | OQ-H3 | Jetson vs. discrete GPU for small sites? | Discrete x86 for pilot | No |
-| OQ-H4 | Exact GPU SKU, and its NVDEC throughput limits? | ≥16 GB VRAM discrete GPU | Blocks capacity claims |
-| OQ-H5 | Is a GPU available for development? | **None in this environment.** Needs a dev workstation or a cloud dev GPU (approval needed for cost) | Blocks Phase 1 benchmark |
+| OQ-H4 | Exact GPU SKU, and its NVDEC throughput limits? | ≥16 GB VRAM discrete GPU. Inference latency is measured on an RTX PRO 4500 Blackwell ([BENCHMARK_RESULTS](BENCHMARK_RESULTS.md)); re-run on the chosen SKU | Blocks capacity claims |
+| OQ-H5 | Is a GPU available for development? | **Partly resolved (2026-10-31):** a cloud GPU (AWS g7.4xlarge) was used for the inference benchmark. A dev workstation is still needed for day-to-day work | No |
 
 ## Legal & licensing
 | ID | Question | Assumption |

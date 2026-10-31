@@ -1,0 +1,176 @@
+{
+  "rtmpose-s": {
+    "kind": "pose_topdown",
+    "source": "https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/onnx_sdk/rtmpose-s_simcc-body7_pt-body7_420e-256x192-acd4a1ef_20230504.zip",
+    "via": "rtmlib 0.0.16 download_checkpoint",
+    "code_license": "Apache-2.0",
+    "license_source": "https://raw.githubusercontent.com/open-mmlab/mmpose/main/LICENSE ; rtmlib 0.0.16 Apache-2.0",
+    "weights": "Body7-trained weights (COCO, AIC, CrowdPose, MPII, sub-JHMDB, Halpe, PoseTrack18) (register: weights \u26a0\ufe0f, OQ-L3)",
+    "onnx_sha256": "9aeb635b83f86aea45cf45d85798f7eba1a162de8e0d721c44e54fe5eebaf47d",
+    "inputs": {
+      "input": [
+        "batch",
+        3,
+        256,
+        192
+      ]
+    }
+  },
+  "rtmpose-m": {
+    "kind": "pose_topdown",
+    "source": "https://download.openmmlab.com/mmpose/v1/projects/rtmposev1/onnx_sdk/rtmpose-m_simcc-body7_pt-body7_420e-256x192-e48f03d0_20230504.zip",
+    "via": "rtmlib 0.0.16 download_checkpoint",
+    "code_license": "Apache-2.0",
+    "license_source": "https://raw.githubusercontent.com/open-mmlab/mmpose/main/LICENSE ; rtmlib 0.0.16 Apache-2.0",
+    "weights": "Body7-trained weights (COCO, AIC, CrowdPose, MPII, sub-JHMDB, Halpe, PoseTrack18) (register: weights \u26a0\ufe0f, OQ-L3)",
+    "onnx_sha256": "5c0a4bf67953e6d2ac43ce15e77dc9d5d354ae18430a47d2c5963a7bc5683e3c",
+    "inputs": {
+      "input": [
+        "batch",
+        3,
+        256,
+        192
+      ]
+    }
+  },
+  "rtmo-s": {
+    "kind": "pose_onestage",
+    "source": "https://download.openmmlab.com/mmpose/v1/projects/rtmo/onnx_sdk/rtmo-s_8xb32-600e_body7-640x640-dac2bf74_20231211.zip",
+    "via": "rtmlib 0.0.16 download_checkpoint",
+    "code_license": "Apache-2.0",
+    "license_source": "https://raw.githubusercontent.com/open-mmlab/mmpose/main/LICENSE ; rtmlib 0.0.16 Apache-2.0",
+    "weights": "Body7-trained weights (COCO, AIC, CrowdPose, MPII, sub-JHMDB, Halpe, PoseTrack18) (register: weights \u26a0\ufe0f, OQ-L3)",
+    "onnx_sha256": "d0703d40d19f3921da51ae725402d5fdae4d2478c7442072d3101bd396f370d8",
+    "inputs": {
+      "input": [
+        "batch",
+        3,
+        640,
+        640
+      ]
+    }
+  },
+  "rtmo-m": {
+    "kind": "pose_onestage",
+    "source": "https://download.openmmlab.com/mmpose/v1/projects/rtmo/onnx_sdk/rtmo-m_16xb16-600e_body7-640x640-39e78cc4_20231211.zip",
+    "via": "rtmlib 0.0.16 download_checkpoint",
+    "code_license": "Apache-2.0",
+    "license_source": "https://raw.githubusercontent.com/open-mmlab/mmpose/main/LICENSE ; rtmlib 0.0.16 Apache-2.0",
+    "weights": "Body7-trained weights (COCO, AIC, CrowdPose, MPII, sub-JHMDB, Halpe, PoseTrack18) (register: weights \u26a0\ufe0f, OQ-L3)",
+    "onnx_sha256": "750d872151ff4652f02c738efc3a547e112ce9b688fe920bc17f948e8c3afdac",
+    "inputs": {
+      "input": [
+        "batch",
+        3,
+        640,
+        640
+      ]
+    }
+  },
+  "yolox-s_640": {
+    "kind": "detector",
+    "input_size": 640,
+    "source": "https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_s.pth @ YOLOX 6ddff4824372906469a7fae2dc3206c7aa4bbaee",
+    "code_license": "Apache-2.0",
+    "license_source": "https://raw.githubusercontent.com/Megvii-BaseDetection/YOLOX/main/LICENSE",
+    "weights": "COCO-trained weights released in the same repo (register: weights \u26a0\ufe0f, OQ-L3)",
+    "weights_sha256": "f55ded7181e1b0c13285c56e7790b8f0e8f8db590fe4edb37f0b7f345c913a30",
+    "onnx_sha256": "9e256c28d2435d6ee9c24dd358c38758df1720c761122b4597c7dc4084755115",
+    "inputs": {
+      "images": [
+        "batch",
+        3,
+        640,
+        640
+      ]
+    }
+  },
+  "yolox-s_1280": {
+    "kind": "detector",
+    "input_size": 1280,
+    "source": "https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_s.pth @ YOLOX 6ddff4824372906469a7fae2dc3206c7aa4bbaee",
+    "code_license": "Apache-2.0",
+    "license_source": "https://raw.githubusercontent.com/Megvii-BaseDetection/YOLOX/main/LICENSE",
+    "weights": "COCO-trained weights released in the same repo (register: weights \u26a0\ufe0f, OQ-L3)",
+    "weights_sha256": "f55ded7181e1b0c13285c56e7790b8f0e8f8db590fe4edb37f0b7f345c913a30",
+    "onnx_sha256": "6abf63568c73d1a7affdaff3e41cadf5d4412062aeb6d7bc9b457205d5feb821",
+    "inputs": {
+      "images": [
+        "batch",
+        3,
+        1280,
+        1280
+      ]
+    }
+  },
+  "yolox-m_640": {
+    "kind": "detector",
+    "input_size": 640,
+    "source": "https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth @ YOLOX 6ddff4824372906469a7fae2dc3206c7aa4bbaee",
+    "code_license": "Apache-2.0",
+    "license_source": "https://raw.githubusercontent.com/Megvii-BaseDetection/YOLOX/main/LICENSE",
+    "weights": "COCO-trained weights released in the same repo (register: weights \u26a0\ufe0f, OQ-L3)",
+    "weights_sha256": "60076992b32da82951c90cfa7bd6ab70eba9eda243e08b940a396f60ac2d19b6",
+    "onnx_sha256": "eb96ffe3ce0648bf55f76ed23abaee9e5951aefbfb16f7068470a9ecbd56c2a1",
+    "inputs": {
+      "images": [
+        "batch",
+        3,
+        640,
+        640
+      ]
+    }
+  },
+  "yolox-m_1280": {
+    "kind": "detector",
+    "input_size": 1280,
+    "source": "https://github.com/Megvii-BaseDetection/YOLOX/releases/download/0.1.1rc0/yolox_m.pth @ YOLOX 6ddff4824372906469a7fae2dc3206c7aa4bbaee",
+    "code_license": "Apache-2.0",
+    "license_source": "https://raw.githubusercontent.com/Megvii-BaseDetection/YOLOX/main/LICENSE",
+    "weights": "COCO-trained weights released in the same repo (register: weights \u26a0\ufe0f, OQ-L3)",
+    "weights_sha256": "60076992b32da82951c90cfa7bd6ab70eba9eda243e08b940a396f60ac2d19b6",
+    "onnx_sha256": "c2167dcf5fc0e16b9d1fc04328e6f3d06a7755d7d80bd39a27cc0df549aacebf",
+    "inputs": {
+      "images": [
+        "batch",
+        3,
+        1280,
+        1280
+      ]
+    }
+  },
+  "rtdetr-r18_640": {
+    "kind": "detector",
+    "input_size": 640,
+    "source": "huggingface.co/PekingU/rtdetr_r18vd@ac77a11ff0170a41b771c03264987f8ce2b0d753 (transformers RTDetrForObjectDetection)",
+    "code_license": "Apache-2.0",
+    "license_source": "https://huggingface.co/api/models/PekingU/rtdetr_r18vd (cardData.license) + github.com/lyuwenyu/RT-DETR LICENSE",
+    "weights": "COCO (+Objects365 pretrain per upstream) weights (register: weights \u26a0\ufe0f, Objects365 terms)",
+    "onnx_sha256": "9e63106f12e6b10b51fb15160ca362e3e5a79e413f45dabdc10be51c8a644284",
+    "inputs": {
+      "images": [
+        "batch",
+        3,
+        640,
+        640
+      ]
+    }
+  },
+  "rtdetr-r18_1280": {
+    "kind": "detector",
+    "input_size": 1280,
+    "source": "huggingface.co/PekingU/rtdetr_r18vd@ac77a11ff0170a41b771c03264987f8ce2b0d753 (transformers RTDetrForObjectDetection)",
+    "code_license": "Apache-2.0",
+    "license_source": "https://huggingface.co/api/models/PekingU/rtdetr_r18vd (cardData.license) + github.com/lyuwenyu/RT-DETR LICENSE",
+    "weights": "COCO (+Objects365 pretrain per upstream) weights (register: weights \u26a0\ufe0f, Objects365 terms)",
+    "onnx_sha256": "e8d97010555e804b7ecd1b257e7ae8fafb6b4514d8b3d3dc94ed5af1c2559ad9",
+    "inputs": {
+      "images": [
+        "batch",
+        3,
+        1280,
+        1280
+      ]
+    }
+  }
+}

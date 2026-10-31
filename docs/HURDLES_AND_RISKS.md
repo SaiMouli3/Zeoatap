@@ -38,7 +38,7 @@
 | H-20 | Heterogeneous cameras/NVRs (RTSP quirks, ONVIF variance, H.265 profiles) | 🟡 | Compatibility test matrix. Prefer direct camera RTSP. NVR re-stream fallback. Pre-install site survey tool |
 | H-21 | Camera clocks drift. RTCP not always sent | 🟢 | Edge as NTP server, receive-time fallback flagged, skew alarms, disable cross-cam merge when skewed |
 | H-22 | Wi-Fi cameras drop frames | 🟢 | Require wired PoE for monitored cameras, or mark them DEGRADED |
-| H-23 | GPU/driver/CUDA/TensorRT/DeepStream version lock (DS 8.0 lacks Orin, CUDA 13 + Triton issues) | 🟡 | Pin the full stack in one container image per hardware SKU. Build TRT engines on device. Avoid Triton in MVP |
+| H-23 | GPU/driver/CUDA/TensorRT/DeepStream version lock (DS 8.0 lacks Orin, CUDA 13 + Triton issues). **Seen in the benchmark:** a kernel auto-upgrade unloaded a `.run`-installed driver, onnxruntime-gpu 1.31 needs CUDA 13, TensorRT 11 dropped the FP16 builder flag ([BENCHMARK_RESULTS](BENCHMARK_RESULTS.md)) | 🟡 | Pin the full stack in one container image per hardware SKU. Pin the kernel or use DKMS drivers. Build TRT engines on device. Avoid Triton in MVP |
 | H-24 | OpenMMLab stack in maintenance mode | 🟢 | Train in pinned env, export ONNX, infer with ONNX Runtime/TensorRT (rtmlib) |
 | H-25 | Browser playback of H.265 clips | 🟢 | Transmux/transcode H.265 → H.264 for review copies, or require H.264 at install |
 | H-26 | GPU overload during bursts | 🟢 | Bounded queues, budget scheduler, protected cameras, visible DEGRADED state |

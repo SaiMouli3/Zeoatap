@@ -51,5 +51,5 @@ Auth bypass, IDOR on clip IDs, token expiry, RBAC matrix enforcement, secrets-in
 | Bad model hash | corrupt file | Refuse to start, alert |
 | Bad config | invalid YAML | Keep last-known-good |
 
-## 8. Executed in this repository (2026-10-27)
-See README "Current capabilities" and the completion report: Go unit tests for `services/core/internal/eventengine` run with `go test ./...`. Nothing else has been executed (no GPU, no cameras, no models).
+## 8. Executed in this repository (updated 2026-10-31)
+Go unit tests for `services/core/internal/eventengine` run with `go test ./...`. The GPU inference-speed benchmark (`services/vision-worker/benchmark`) ran on an AWS GPU on synthetic inputs ([BENCHMARK_RESULTS](BENCHMARK_RESULTS.md)). No cameras, footage or trained models have been used. No accuracy has been measured.
