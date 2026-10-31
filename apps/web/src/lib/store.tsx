@@ -64,6 +64,9 @@ interface AppState {
   refreshIncidents: () => Promise<void>;
   refreshAll: () => Promise<void>;
   upsertIncident: (i: Incident) => void;
+  /** view_shadow roles only: include SHADOW incidents (core needs shadow=1). */
+  showShadow: boolean;
+  setShowShadow: (v: boolean) => void;
   live: { status: LiveStatus; downSince: number | null; reconnectAt: number | null };
   reconnectNow: () => void;
   subscribe: (h: SseHandler) => () => void;
@@ -143,7 +146,13 @@ export function AppProvider({ me, onSignedOut, children }: { me: Me; onSignedOut
     }
   }, []);
 
-  const shadowQ = perms.has("view_shadow") ? "&shadow=1" : "";
+  const [showShadow, setShowShadowState] = useState(false);
+  const showShadowRef = useRef(false);
+  const setShowShadow = useCallback((v: boolean) => {
+    showShadowRef.current = v;
+    setShowShadowState(v);
+  }, []);
+  const shadowQ = perms.has("view_shadow") && showShadow ? "&shadow=1" : "";
   const refreshIncidents = useCallback(async () => {
     try {
       const [open, recent] = await Promise.all([
@@ -164,6 +173,7 @@ export function AppProvider({ me, onSignedOut, children }: { me: Me; onSignedOut
   }, [refreshOverview, refreshIncidents]);
 
   const upsertIncident = useCallback((inc: Incident) => {
+    if (inc.status === "SHADOW" && !showShadowRef.current) return;
     setIncidents((list) => mergeIncident(list ?? [], inc));
   }, []);
 
@@ -378,6 +388,8 @@ export function AppProvider({ me, onSignedOut, children }: { me: Me; onSignedOut
     refreshIncidents,
     refreshAll,
     upsertIncident,
+    showShadow,
+    setShowShadow,
     live,
     reconnectNow,
     subscribe,
@@ -387,7 +399,7 @@ export function AppProvider({ me, onSignedOut, children }: { me: Me; onSignedOut
     sound,
     logout,
     alertPulse,
-  }), [me, can, overview, overviewAt, overviewError, incidents, incidentsError, refreshOverview, refreshIncidents, refreshAll, upsertIncident, live, reconnectNow, subscribe, toasts, pushToast, dismissToast, sound, logout, alertPulse]);
+  }), [me, can, overview, overviewAt, overviewError, incidents, incidentsError, refreshOverview, refreshIncidents, refreshAll, upsertIncident, showShadow, setShowShadow, live, reconnectNow, subscribe, toasts, pushToast, dismissToast, sound, logout, alertPulse]);
 
   return (
     <Ctx.Provider value={value}>

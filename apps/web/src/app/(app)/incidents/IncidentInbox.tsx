@@ -45,7 +45,7 @@ function Row({ i, selected, roomName }: { i: Incident; selected: boolean; roomNa
 }
 
 export function IncidentInbox({ selectedId, initialRoom }: { selectedId: string | null; initialRoom: string | null }) {
-  const { incidents, incidentsError, refreshIncidents, overview, can } = useApp();
+  const { incidents, incidentsError, refreshIncidents, overview, can, showShadow, setShowShadow } = useApp();
   const [lifecycle, setLifecycle] = useState<LifecycleFilter>("open");
   const [status, setStatus] = useState<IncidentStatus | "all">("all");
   const [room, setRoom] = useState<string>(initialRoom ?? "all");
@@ -71,7 +71,7 @@ export function IncidentInbox({ selectedId, initialRoom }: { selectedId: string 
 
   const pinned = filtered?.filter(needsAck) ?? [];
   const rest = filtered?.filter((i) => !needsAck(i)) ?? [];
-  const statuses: IncidentStatus[] = ["ALERTED", "REVIEW_QUEUED", "INCONCLUSIVE", ...(can("view_shadow") ? (["SHADOW"] as IncidentStatus[]) : [])];
+  const statuses: IncidentStatus[] = ["ALERTED", "REVIEW_QUEUED", "INCONCLUSIVE", ...(can("view_shadow") && showShadow ? (["SHADOW"] as IncidentStatus[]) : [])];
   const filtersActive = lifecycle !== "open" || status !== "all" || room !== "all";
 
   return (
@@ -110,6 +110,20 @@ export function IncidentInbox({ selectedId, initialRoom }: { selectedId: string 
             ))}
           </select>
         </label>
+        {can("view_shadow") ? (
+          <label className="check shadow-toggle">
+            <input
+              type="checkbox"
+              checked={showShadow}
+              onChange={(e) => {
+                setShowShadow(e.target.checked);
+                if (!e.target.checked && status === "SHADOW") setStatus("all");
+              }}
+              data-testid="toggle-shadow"
+            />
+            <span>Include shadow-mode incidents (hidden from room staff)</span>
+          </label>
+        ) : null}
       </div>
 
       {incidentsError && !incidents ? (

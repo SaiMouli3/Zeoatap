@@ -28,6 +28,9 @@ const tileTones = (page) =>
 async function assertNeverFalseGreen(page) {
   const tones = await tileTones(page);
   for (const t of tones) if (t.tone === "ok") assert.equal(t.state, "FULLY_OPERATIONAL", `room ${t.room} shown green in state ${t.state}`);
+  const camRows = await page.$$eval('[data-testid="room-tile"] .cam-state', (els) => els.map((e) => e.getAttribute("data-tone")));
+  const anyStale = tones.some((t) => t.state === "UNKNOWN");
+  if (anyStale) assert.ok(camRows.every((t) => t === "unknown"), "no green camera rows while stale");
   const badges = await page.$$eval('[data-testid="state-badge"]', (els) => els.map((e) => ({ tone: e.getAttribute("data-tone"), text: e.textContent })));
   for (const b of badges) if (b.tone === "ok") assert.match(b.text ?? "", /Fully monitored/);
   return tones;
@@ -252,15 +255,57 @@ test("clip playback via token (lead); caregiver sees no clip", async () => {
   await c2.ctx.close();
 });
 
-test("shadow incidents only for view_shadow roles", async () => {
-  for (const [role, visible] of [["caregiver", false], ["reviewer", true]]) {
-    const { ctx, page } = await fresh();
-    await login(page, base, role);
-    await page.goto(`${base}/incidents/`);
-    await page.getByTestId("incident-row").first().waitFor();
-    assert.equal((await page.locator('[data-incident="INC-c05e7a8fd005"]').count()) > 0, visible, `${role} shadow visibility`);
-    await ctx.close();
-  }
+test("shadow incidents: hidden by default, opt-in toggle only for view_shadow roles", async () => {
+  const c1 = await fresh();
+  await login(c1.page, base, "caregiver");
+  await c1.page.goto(`${base}/incidents/`);
+  await c1.page.getByTestId("incident-row").first().waitFor();
+  assert.equal(await c1.page.getByTestId("toggle-shadow").count(), 0);
+  assert.equal(await c1.page.locator('[data-incident="INC-c05e7a8fd005"]').count(), 0);
+  await c1.page.goto(`${base}/incidents/?id=INC-c05e7a8fd005`);
+  await c1.page.getByText("Incident not found").waitFor();
+  await c1.ctx.close();
+
+  const { ctx, page } = await fresh();
+  await login(page, base, "reviewer");
+  await page.goto(`${base}/incidents/`);
+  await page.getByTestId("incident-row").first().waitFor();
+  assert.equal(await page.locator('[data-incident="INC-c05e7a8fd005"]').count(), 0, "not shown before opting in");
+  const req = page.waitForRequest((r) => r.url().includes("/api/v1/incidents?") && r.url().includes("shadow=1"));
+  await page.getByTestId("toggle-shadow").check();
+  await req;
+  await page.locator('[data-testid="incident-row"][data-incident="INC-c05e7a8fd005"]').waitFor();
+  await ctx.close();
+});
+
+test("clip deleted under retention (410) and audit failure (503)", async () => {
+  const { ctx, page } = await fresh();
+  await login(page, base, "reviewer");
+  await page.goto(`${base}/incidents/?id=INC-e1aa0b77c006`);
+  await page.getByTestId("clip-deleted").waitFor(); // deleted_at already set: no token requested
+  await page.goto(`${base}/incidents/?id=INC-7f3a9c21b001`);
+  await page.getByTestId("clip-request").waitFor();
+  await mock.control("clip_delete", { id: "INC-7f3a9c21b001-cam3" });
+  await page.getByTestId("clip-request").click();
+  await page.getByTestId("clip-deleted").waitFor();
+  assert.match(await page.getByTestId("clip-deleted").innerText(), /deleted under the retention policy/);
+  await mock.control("audit_fail", { on: true });
+  await page.getByRole("button", { name: "cam4" }).click();
+  await page.getByTestId("clip-request").click();
+  await page.getByText(/could not be recorded in the audit log/).waitFor();
+  await ctx.close();
+});
+
+test("engine error: rooms shown as AI unavailable, never green", async () => {
+  await mock.control("reset", { scenario: "all_ok" });
+  await mock.control("services", { engine: "error", engine_error: "worker heartbeat lost" });
+  const { ctx, page } = await fresh();
+  await login(page, base, "caregiver");
+  await page.getByTestId("room-tile").first().waitFor();
+  await page.locator('[data-testid="banner-service"]', { hasText: "worker heartbeat lost" }).waitFor();
+  const tones = await assertNeverFalseGreen(page);
+  assert.ok(tones.every((t) => t.state === "AI_UNAVAILABLE"));
+  await ctx.close();
 });
 
 test("new incident appears live via SSE, with alert toast", async () => {

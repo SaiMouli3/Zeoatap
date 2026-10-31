@@ -39,6 +39,7 @@ function ClipPlayer({ incident, cameraId, onRefresh }: { incident: Incident; cam
   const [token, setToken] = useState<ClipToken | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [gone, setGone] = useState(false);
 
   if (!can("view_clips")) {
     return (
@@ -58,13 +59,31 @@ function ClipPlayer({ incident, cameraId, onRefresh }: { incident: Incident; cam
       </div>
     );
   }
-  if (clip.deleted_at) {
+  if (clip.deleted_at || gone) {
     return (
       <div className="clip-box" data-testid="clip-deleted">
-        <p>This clip was deleted under the retention policy on {formatDateTime(clip.deleted_at)}.</p>
+        <p>This clip was deleted under the retention policy{clip.deleted_at ? ` on ${formatDateTime(clip.deleted_at)}` : ""}.</p>
       </div>
     );
   }
+
+  // A <video> error does not expose the HTTP status, so ask the server once why playback failed.
+  const explainFailure = async (url: string) => {
+    let status = 0;
+    try {
+      status = (await fetch(url, { headers: { Range: "bytes=0-0" }, credentials: "same-origin", cache: "no-store" })).status;
+    } catch {
+      /* network */
+    }
+    if (status === 410) {
+      setGone(true);
+      setError("This clip was deleted under the retention policy.");
+    } else if (status === 403) setError("The access link has expired or your access has changed (links last 5 minutes).");
+    else if (status === 503) setError("Playback is blocked because this view could not be recorded in the audit log. Try again in a moment.");
+    else if (status === 401) setError("Your session has ended. Sign in again to view clips.");
+    else if (status >= 200 && status < 300) setError("This browser cannot play the clip format. Try another browser or device.");
+    else setError("The clip could not be played. Check the connection and request access again.");
+  };
 
   const request = async () => {
     setBusy(true);
@@ -72,6 +91,7 @@ function ClipPlayer({ incident, cameraId, onRefresh }: { incident: Incident; cam
     try {
       setToken(await api.post<ClipToken>(`/api/v1/clips/${encodeURIComponent(clip.id)}/token`, {}));
     } catch (e) {
+      if (e instanceof ApiError && e.status === 410) setGone(true);
       setError(errorMessage(e));
     } finally {
       setBusy(false);
@@ -90,7 +110,7 @@ function ClipPlayer({ incident, cameraId, onRefresh }: { incident: Incident; cam
             preload="metadata"
             className="clip-video"
             data-testid="clip-video"
-            onError={() => setError("The clip could not be played. The access link may have expired (links last 5 minutes).")}
+            onError={() => void explainFailure(token.url)}
           >
             Your browser cannot play this clip.
           </video>

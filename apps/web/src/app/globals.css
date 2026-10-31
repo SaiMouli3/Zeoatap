@@ -581,6 +581,15 @@ fieldset:disabled .radio-card {
 .tone-text-unavailable {
   color: var(--un-fg);
 }
+.tone-text-unknown {
+  color: var(--unk-fg);
+}
+.cam-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
 .chip {
   display: inline-flex;
   align-items: center;

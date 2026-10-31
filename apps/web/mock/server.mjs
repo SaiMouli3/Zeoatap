@@ -18,6 +18,9 @@
 //   POST /__mock/camera_state           {camera_id, state}            -> emits camera_state
 //   POST /__mock/incident               {room_id?, event_type?, status?, silent?} -> creates + emits incident_created + alert
 //   POST /__mock/resolve                {id, disposition?, actor?}    -> resolves without broadcasting (409 tests)
+//   POST /__mock/clip_delete            {id}                          -> marks a clip retention-deleted (media -> 410)
+//   POST /__mock/audit_fail             {on}                          -> clip media returns 503 (audit write failure)
+//   POST /__mock/services               {engine?, engine_error?, ...} -> overrides service health
 //   POST /__mock/emit                   {type, data}                  -> raw SSE event
 //   POST /__mock/sse/drop               {refuse_ms?: number}          -> closes streams, refuses reconnects for refuse_ms
 //   POST /__mock/sessions/expire        {}                            -> invalidates every session
@@ -138,7 +141,7 @@ function seed(scenario = "default") {
           id: "INC-e1aa0b77c006", room_id: "infants-a", room_zone: "changing-table-1", event_type: "infant_off_surface",
           family: "A", agoStart: 26 * 60 * MIN, cameras: ["cam1"], status: "ALERTED", lifecycle: "resolved",
           acknowledged_by: "carol", acknowledged_at: iso(26 * 60 * MIN - 20_000), disposition: "routine_care",
-          resolved_by: "rita", resolved_at: iso(25 * 60 * MIN),
+          resolved_by: "rita", resolved_at: iso(25 * 60 * MIN), clipsDeleted: true,
           detail: "Infant lifted from the changing table by staff.",
           actions: [
             { actor: "carol", action: "acknowledged", disposition: null, note: null, at: iso(26 * 60 * MIN - 20_000) },
@@ -201,7 +204,7 @@ function incident(o) {
     actions: o.actions ?? [],
     clips: o.cameras.map((c, i) => ({
       id: `${id}-${c}`, camera_id: c, sha256: crypto.createHash("sha256").update(`${id}-${c}`).digest("hex"),
-      size_bytes: 18699, partial: i === 1, start: iso(o.agoStart + 10_000), end: iso(o.agoStart - 16_000), created_at: end, deleted_at: null,
+      size_bytes: 18699, partial: i === 1, start: iso(o.agoStart + 10_000), end: iso(o.agoStart - 16_000), created_at: end, deleted_at: o.clipsDeleted ? iso(o.agoStart - DAY) : null,
     })),
   };
 }
@@ -210,21 +213,29 @@ function addAudit(actor, action, subject, payload = {}, msAgo = 0) {
   db.audit.push({ seq: db.audit.length + 1, at: iso(msAgo), actor, action, subject, payload });
 }
 
-function roomState(roomId) {
-  const cs = db.cameras.filter((c) => c.room_id === roomId && c.enabled);
-  if (cs.length === 0) return "NOT_CONNECTED";
-  return cs.reduce((w, c) => (STATE_RANK[c.state] > STATE_RANK[w] ? c.state : w), "FULLY_OPERATIONAL");
+// As implemented by core: disabled cameras count as NOT_CONNECTED; an engine
+// error forces every connected camera to at least AI_UNAVAILABLE.
+function effectiveState(c) {
+  if (!c.enabled) return "NOT_CONNECTED";
+  if (db.services.engine !== "ok" && STATE_RANK[c.state] < STATE_RANK.AI_UNAVAILABLE) return "AI_UNAVAILABLE";
+  return c.state;
 }
 
-function overview(user) {
+function roomState(roomId) {
+  const cs = db.cameras.filter((c) => c.room_id === roomId);
+  if (cs.length === 0) return "NOT_CONNECTED";
+  return cs.map(effectiveState).reduce((w, st) => (STATE_RANK[st] > STATE_RANK[w] ? st : w), "FULLY_OPERATIONAL");
+}
+
+function overview() {
   const rooms = db.rooms.map((r) => ({
     id: r.id, name: r.name, state: roomState(r.id),
-    cameras: db.cameras.filter((c) => c.room_id === r.id).map((c) => ({ id: c.id, name: c.name, state: c.state, since: c.state_since, protected: c.protected })),
+    cameras: db.cameras.filter((c) => c.room_id === r.id).map((c) => ({ id: c.id, name: c.name, state: effectiveState(c), since: c.state_since, protected: c.protected })),
   }));
   const state = rooms.reduce((w, r) => (STATE_RANK[r.state] > STATE_RANK[w] ? r.state : w), "FULLY_OPERATIONAL");
   return {
     facility: db.facility, state, rooms,
-    open_alerts: visibleIncidents(user, true).filter((i) => i.lifecycle !== "resolved").length,
+    open_alerts: db.incidents.filter((i) => i.status === "ALERTED" && i.lifecycle !== "resolved").length,
     alerts_health: db.alerts_health, services: db.services, generated_at: iso(),
   };
 }
@@ -250,7 +261,17 @@ function broadcast(type, data, { shadow = false } = {}) {
   }
 }
 setInterval(() => {
-  for (const c of sseClients) c.res.write(": ping\n\n");
+  for (const c of sseClients) {
+    // Pings do not extend the session; the stream ends once the session has idled out.
+    const s = sessions.get(c.tok);
+    if (!s || Date.now() - s.lastSeen > IDLE_MS) {
+      sessions.delete(c.tok);
+      c.res.end();
+      sseClients.delete(c);
+      continue;
+    }
+    c.res.write(": ping\n\n");
+  }
 }, PING_MS).unref();
 
 // ---------------------------------------------------------------- http helpers
@@ -375,7 +396,7 @@ async function handle(req, res) {
     const tok = crypto.randomBytes(24).toString("hex");
     sessions.set(tok, { userId: u.id, lastSeen: Date.now() });
     addAudit(u.username, "login", u.username);
-    return send(res, 200, { user: u }, { "Set-Cookie": `zeoatap_session=${tok}; HttpOnly; SameSite=Strict; Path=/` });
+    return send(res, 200, { user: u, permissions: PERMS[u.role] }, { "Set-Cookie": `zeoatap_session=${tok}; HttpOnly; SameSite=Strict; Path=/` });
   }
   if (p === "/api/v1/logout" && method === "POST") {
     const tok = parseCookies(req).zeoatap_session;
@@ -388,6 +409,11 @@ async function handle(req, res) {
   if (clipMedia && method === "GET") {
     const t = tokens.get(url.searchParams.get("token") ?? "");
     if (!t || t.clipId !== clipMedia[1] || t.expires < Date.now()) return err(res, 403, "clip token invalid or expired");
+    const owner = db.users.find((u) => u.username === t.actor);
+    if (!owner || owner.disabled || !PERMS[owner.role].includes("view_clips")) return err(res, 403, "clip token no longer valid");
+    const clip = db.incidents.flatMap((x) => x.clips).find((c) => c.id === t.clipId);
+    if (!clip || clip.deleted_at) return err(res, 410, "clip deleted under retention policy");
+    if (db.auditFail) return err(res, 503, "clip access could not be audit-logged");
     if (!req.headers.range || req.headers.range.startsWith("bytes=0-")) addAudit(t.actor, "clip_viewed", t.clipId);
     return serveClip(req, res);
   }
@@ -406,14 +432,15 @@ async function handle(req, res) {
 
   if (p === "/api/v1/me" && method === "GET") return send(res, 200, { user, permissions: perms });
 
-  if (p === "/api/v1/overview" && method === "GET") return need("view_status") && send(res, 200, overview(user));
+  if (p === "/api/v1/overview" && method === "GET") return need("view_status") && send(res, 200, overview());
 
   if (p === "/api/v1/events" && method === "GET") {
     if (!need("view_status")) return;
     if (Date.now() < refuseSseUntil) return err(res, 503, "event stream temporarily unavailable");
     res.writeHead(200, { "Content-Type": "text/event-stream", "Cache-Control": "no-store", Connection: "keep-alive" });
-    res.write(": connected\n\n");
-    const client = { res, user };
+    res.write("retry: 3000\n: connected\n\n");
+    const tok = parseCookies(req).zeoatap_session;
+    const client = { res, user, tok };
     sseClients.add(client);
     req.on("close", () => sseClients.delete(client));
     return;
@@ -501,8 +528,9 @@ async function handle(req, res) {
   const clipTok = /^\/api\/v1\/clips\/([^/]+)\/token$/.exec(p);
   if (clipTok && method === "POST") {
     if (!need("view_clips")) return;
-    const clip = db.incidents.flatMap((x) => x.clips).find((c) => c.id === clipTok[1]);
-    if (!clip || clip.deleted_at) return err(res, 404, "clip not found");
+    const owner = db.incidents.find((x) => x.clips.some((c) => c.id === clipTok[1]));
+    const clip = owner?.clips.find((c) => c.id === clipTok[1]);
+    if (!clip || (owner.status === "SHADOW" && !perms.includes("view_shadow"))) return err(res, 404, "clip not found");
     const t = crypto.randomBytes(16).toString("hex");
     const expires = Date.now() + 5 * MIN;
     tokens.set(t, { clipId: clip.id, expires, actor: user.username });
@@ -586,6 +614,18 @@ async function mockControl(req, res, p) {
       i.actions.push({ actor: i.resolved_by, action: "disposition", disposition: i.disposition, note: null, at: iso() });
       return send(res, 200, i);
     }
+    case "/__mock/clip_delete": {
+      const clip = db.incidents.flatMap((x) => x.clips).find((c) => c.id === body.id);
+      if (!clip) return err(res, 404, "no such clip");
+      clip.deleted_at = iso();
+      return send(res, 200, clip);
+    }
+    case "/__mock/audit_fail":
+      db.auditFail = !!body.on;
+      return send(res, 200, { ok: true });
+    case "/__mock/services":
+      Object.assign(db.services, body);
+      return send(res, 200, db.services);
     case "/__mock/emit":
       broadcast(body.type, body.data);
       return send(res, 200, { ok: true });

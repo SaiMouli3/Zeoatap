@@ -114,7 +114,7 @@ export function Shell({ children }: { children: ReactNode }) {
         </div>
         <div className="topbar-right">
           <Link href="/incidents/" className={`alerts-pill${openAlerts ? " has-open" : ""}`} data-testid="open-alerts">
-            <span className="alerts-pill-label">Open</span>
+            <span className="alerts-pill-label">Open alerts</span>
             <span className="alerts-pill-count">{openAlerts ?? "–"}</span>
           </Link>
           <LiveIndicator />

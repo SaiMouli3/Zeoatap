@@ -41,10 +41,17 @@ function RoomTile({ room, stale, ageS, open }: { room: OverviewRoom; stale: bool
           {room.cameras.map((c) => (
             <li key={c.id}>
               <span className="cam-name">{c.name}</span>
-              <span className={`cam-state tone-text-${STATE_PRESENTATION[c.state].tone}`}>
-                <span aria-hidden="true">{c.state === "FULLY_OPERATIONAL" ? "✓" : c.state === "VIDEO_DEGRADED" ? "◐" : "✕"}</span> {STATE_SHORT[c.state]}
-                <span className="muted"> · {formatAge(ageSeconds(c.since, now))}</span>
-              </span>
+              {stale ? (
+                // Never green while the status is unconfirmed: show last-known values neutrally.
+                <span className="cam-state tone-text-unknown" data-tone="unknown">
+                  <Icon name="question" size={14} /> Last known: {STATE_SHORT[c.state]}
+                </span>
+              ) : (
+                <span className={`cam-state tone-text-${STATE_PRESENTATION[c.state].tone}`} data-tone={STATE_PRESENTATION[c.state].tone}>
+                  <Icon name={STATE_PRESENTATION[c.state].icon} size={14} /> {STATE_SHORT[c.state]}
+                  <span className="muted"> · {formatAge(ageSeconds(c.since, now))}</span>
+                </span>
+              )}
             </li>
           ))}
         </ul>
