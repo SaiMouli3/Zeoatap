@@ -1,0 +1,43 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+warning: `VIRTUAL_ENV=.venv` does not match the project environment path `/home/user/Zeoatap/services/vision-worker/.venv` and will be ignored; use `--active` to target the active environment instead
+2026-10-31 16:18:39,277 WARNING root MOCK detector: observations are not real detections
+2026-10-31 16:18:39,277 WARNING root $ZEOATAP_INTERNAL_TOKEN not set: POST /v1/clips is disabled
+2026-10-31 16:18:41,103 INFO zeoatap_vision.camera camera cam01: CONNECTING -> STREAMING
+2026-10-31 16:18:41,111 INFO zeoatap_vision.camera camera cam04: CONNECTING -> STREAMING
+2026-10-31 16:18:41,129 INFO zeoatap_vision.camera camera cam02: CONNECTING -> STREAMING
+2026-10-31 16:18:41,137 INFO zeoatap_vision.camera camera cam07: CONNECTING -> STREAMING
+2026-10-31 16:18:41,138 INFO zeoatap_vision.camera camera cam08: CONNECTING -> STREAMING
+2026-10-31 16:18:41,138 INFO zeoatap_vision.camera camera cam05: CONNECTING -> STREAMING
+2026-10-31 16:18:41,145 INFO zeoatap_vision.camera camera cam03: CONNECTING -> STREAMING
+2026-10-31 16:18:41,159 INFO zeoatap_vision.camera camera cam06: CONNECTING -> STREAMING
+2026-10-31 16:19:11,559 WARNING zeoatap_vision.camera camera cam01: ConnectionError: stream ended
+2026-10-31 16:19:11,559 INFO zeoatap_vision.camera camera cam01: STREAMING -> RECONNECTING
+2026-10-31 16:19:12,462 WARNING zeoatap_vision.camera camera cam01: HTTPNotFoundError: [Errno 875574520] Server returned 404 Not Found: 'rtsp://127.0.0.1:50045/cam01'
+2026-10-31 16:19:14,389 WARNING zeoatap_vision.camera camera cam01: HTTPNotFoundError: [Errno 875574520] Server returned 404 Not Found: 'rtsp://127.0.0.1:50045/cam01'
+2026-10-31 16:19:17,989 WARNING zeoatap_vision.camera camera cam01: HTTPNotFoundError: [Errno 875574520] Server returned 404 Not Found: 'rtsp://127.0.0.1:50045/cam01'
+2026-10-31 16:19:26,240 INFO zeoatap_vision.camera camera cam01: RECONNECTING -> STREAMING
+2026-10-31 16:19:51,597 WARNING zeoatap_vision.camera camera cam01: ConnectionError: stream ended
+2026-10-31 16:19:51,597 INFO zeoatap_vision.camera camera cam01: STREAMING -> RECONNECTING
+2026-10-31 16:19:51,687 WARNING zeoatap_vision.camera camera cam02: ConnectionError: stream ended
+2026-10-31 16:19:51,690 INFO zeoatap_vision.camera camera cam02: STREAMING -> RECONNECTING
+2026-10-31 16:19:51,776 WARNING zeoatap_vision.camera camera cam03: ConnectionError: stream ended
+2026-10-31 16:19:51,776 INFO zeoatap_vision.camera camera cam03: STREAMING -> RECONNECTING
+2026-10-31 16:19:51,871 WARNING zeoatap_vision.camera camera cam04: ConnectionError: stream ended
+2026-10-31 16:19:51,872 INFO zeoatap_vision.camera camera cam04: STREAMING -> RECONNECTING
+2026-10-31 16:19:51,928 WARNING zeoatap_vision.camera camera cam05: ConnectionError: stream ended
+2026-10-31 16:19:51,928 INFO zeoatap_vision.camera camera cam05: STREAMING -> RECONNECTING
+2026-10-31 16:19:52,025 WARNING zeoatap_vision.camera camera cam06: ConnectionError: stream ended
+2026-10-31 16:19:52,025 INFO zeoatap_vision.camera camera cam06: STREAMING -> RECONNECTING
+2026-10-31 16:19:52,127 WARNING zeoatap_vision.camera camera cam07: ConnectionError: stream ended
+2026-10-31 16:19:52,127 INFO zeoatap_vision.camera camera cam07: STREAMING -> RECONNECTING
+2026-10-31 16:19:52,250 WARNING zeoatap_vision.camera camera cam08: ConnectionError: stream ended
+2026-10-31 16:19:52,250 INFO zeoatap_vision.camera camera cam08: STREAMING -> RECONNECTING
+2026-10-31 16:19:52,328 INFO root shutting down
+2026-10-31 16:19:52,328 INFO zeoatap_vision.camera camera cam01: RECONNECTING -> STOPPED
+2026-10-31 16:19:52,328 INFO zeoatap_vision.camera camera cam02: RECONNECTING -> STOPPED
+2026-10-31 16:19:52,329 INFO zeoatap_vision.camera camera cam03: RECONNECTING -> STOPPED
+2026-10-31 16:19:52,329 INFO zeoatap_vision.camera camera cam04: RECONNECTING -> STOPPED
+2026-10-31 16:19:52,329 INFO zeoatap_vision.camera camera cam05: RECONNECTING -> STOPPED
+2026-10-31 16:19:52,330 INFO zeoatap_vision.camera camera cam06: RECONNECTING -> STOPPED
+2026-10-31 16:19:52,330 INFO zeoatap_vision.camera camera cam07: RECONNECTING -> STOPPED
+2026-10-31 16:19:52,331 INFO zeoatap_vision.camera camera cam08: RECONNECTING -> STOPPED

@@ -1,0 +1,21 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+warning: `VIRTUAL_ENV=.venv` does not match the project environment path `/home/user/Zeoatap/services/vision-worker/.venv` and will be ignored; use `--active` to target the active environment instead
+2026-10-31 16:16:04,509 WARNING root MOCK detector: observations are not real detections
+2026-10-31 16:16:04,510 WARNING root $ZEOATAP_INTERNAL_TOKEN not set: POST /v1/clips is disabled
+2026-10-31 16:16:06,282 INFO zeoatap_vision.camera camera cam02: CONNECTING -> STREAMING
+2026-10-31 16:16:06,296 INFO zeoatap_vision.camera camera cam01: CONNECTING -> STREAMING
+2026-10-31 16:16:06,328 INFO zeoatap_vision.camera camera cam03: CONNECTING -> STREAMING
+2026-10-31 16:16:06,340 INFO zeoatap_vision.camera camera cam04: CONNECTING -> STREAMING
+2026-10-31 16:17:16,776 WARNING zeoatap_vision.camera camera cam01: ConnectionError: stream ended
+2026-10-31 16:17:16,777 INFO zeoatap_vision.camera camera cam01: STREAMING -> RECONNECTING
+2026-10-31 16:17:16,881 WARNING zeoatap_vision.camera camera cam02: ConnectionError: stream ended
+2026-10-31 16:17:16,882 INFO zeoatap_vision.camera camera cam02: STREAMING -> RECONNECTING
+2026-10-31 16:17:17,001 WARNING zeoatap_vision.camera camera cam03: ConnectionError: stream ended
+2026-10-31 16:17:17,002 INFO zeoatap_vision.camera camera cam03: STREAMING -> RECONNECTING
+2026-10-31 16:17:17,116 WARNING zeoatap_vision.camera camera cam04: ConnectionError: stream ended
+2026-10-31 16:17:17,116 INFO zeoatap_vision.camera camera cam04: STREAMING -> RECONNECTING
+2026-10-31 16:17:17,199 INFO root shutting down
+2026-10-31 16:17:17,200 INFO zeoatap_vision.camera camera cam01: RECONNECTING -> STOPPED
+2026-10-31 16:17:17,200 INFO zeoatap_vision.camera camera cam02: RECONNECTING -> STOPPED
+2026-10-31 16:17:17,201 INFO zeoatap_vision.camera camera cam03: RECONNECTING -> STOPPED
+2026-10-31 16:17:17,201 INFO zeoatap_vision.camera camera cam04: RECONNECTING -> STOPPED

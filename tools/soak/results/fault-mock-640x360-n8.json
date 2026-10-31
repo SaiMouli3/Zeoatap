@@ -1,0 +1,2432 @@
+{
+  "machine": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "physical_cpus": 4,
+    "ram_gb": 15.7,
+    "kernel": "6.18.44-fc-v185",
+    "python": "3.13.17",
+    "ffmpeg": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+    "gpu": "none"
+  },
+  "params": {
+    "cameras": 8,
+    "resolution": "640x360",
+    "input_fps": 25,
+    "protected_fraction": 0.5,
+    "detector": "mock",
+    "worker_arg": [],
+    "duration": 60.0,
+    "warmup": 10,
+    "interval": 2.0,
+    "connect_timeout": 120,
+    "fault_at": 20.0,
+    "fault_camera": 0,
+    "fault_down_s": 8.0,
+    "keep_observations": false,
+    "mediamtx": "/home/user/Zeoatap/.tools/mediamtx",
+    "out": "results/fault-mock-640x360-n8.json"
+  },
+  "cameras": [
+    {
+      "id": "cam01",
+      "url": "rtsp://127.0.0.1:50045/cam01",
+      "protected": true
+    },
+    {
+      "id": "cam02",
+      "url": "rtsp://127.0.0.1:50045/cam02",
+      "protected": true
+    },
+    {
+      "id": "cam03",
+      "url": "rtsp://127.0.0.1:50045/cam03",
+      "protected": true
+    },
+    {
+      "id": "cam04",
+      "url": "rtsp://127.0.0.1:50045/cam04",
+      "protected": true
+    },
+    {
+      "id": "cam05",
+      "url": "rtsp://127.0.0.1:50045/cam05",
+      "protected": false
+    },
+    {
+      "id": "cam06",
+      "url": "rtsp://127.0.0.1:50045/cam06",
+      "protected": false
+    },
+    {
+      "id": "cam07",
+      "url": "rtsp://127.0.0.1:50045/cam07",
+      "protected": false
+    },
+    {
+      "id": "cam08",
+      "url": "rtsp://127.0.0.1:50045/cam08",
+      "protected": false
+    }
+  ],
+  "baseline_host_cpu_pct": 5.8,
+  "loadavg_before": [
+    6.0478515625,
+    5.85546875,
+    3.7353515625
+  ],
+  "worker_cmd": [
+    "uv",
+    "run",
+    "--project",
+    "/home/user/Zeoatap/services/vision-worker",
+    "zeoatap-vision",
+    "--config",
+    "/home/user/Zeoatap/tools/soak/results/fault-mock-640x360-n8/cameras.json",
+    "--observations",
+    "/dev/null",
+    "--detector",
+    "mock",
+    "--health-port",
+    "53917"
+  ],
+  "connect_s": 2.51,
+  "loadavg_after": [
+    3.7568359375,
+    5.14794921875,
+    3.640625
+  ],
+  "samples": [
+    {
+      "t": 2.0,
+      "host_cpu_pct": 29.0,
+      "host_cpu_cores_busy": 1.16,
+      "vision-worker": {
+        "cpu_pct": 21.7,
+        "rss_mb": 215.4
+      },
+      "mediamtx": {
+        "cpu_pct": 6.9,
+        "rss_mb": 23.7
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 60.3,
+        "rss_mb": 432.4
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 990
+    },
+    {
+      "t": 4.0,
+      "host_cpu_pct": 27.3,
+      "host_cpu_cores_busy": 1.09,
+      "vision-worker": {
+        "cpu_pct": 21.5,
+        "rss_mb": 219.1
+      },
+      "mediamtx": {
+        "cpu_pct": 7.0,
+        "rss_mb": 23.9
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 58.1,
+        "rss_mb": 432.4
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 14.5,
+          "analyzed_fps": 14.5,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 1149
+    },
+    {
+      "t": 6.0,
+      "host_cpu_pct": 27.0,
+      "host_cpu_cores_busy": 1.08,
+      "vision-worker": {
+        "cpu_pct": 21.0,
+        "rss_mb": 222.7
+      },
+      "mediamtx": {
+        "cpu_pct": 7.0,
+        "rss_mb": 23.7
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 58.4,
+        "rss_mb": 432.4
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 1309
+    },
+    {
+      "t": 8.0,
+      "host_cpu_pct": 28.0,
+      "host_cpu_cores_busy": 1.12,
+      "vision-worker": {
+        "cpu_pct": 20.5,
+        "rss_mb": 226.2
+      },
+      "mediamtx": {
+        "cpu_pct": 7.0,
+        "rss_mb": 23.8
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 58.6,
+        "rss_mb": 432.4
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 1469
+    },
+    {
+      "t": 10.0,
+      "host_cpu_pct": 28.0,
+      "host_cpu_cores_busy": 1.12,
+      "vision-worker": {
+        "cpu_pct": 21.0,
+        "rss_mb": 229.7
+      },
+      "mediamtx": {
+        "cpu_pct": 6.0,
+        "rss_mb": 23.9
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 58.5,
+        "rss_mb": 432.4
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 1629
+    },
+    {
+      "t": 12.0,
+      "host_cpu_pct": 27.2,
+      "host_cpu_cores_busy": 1.09,
+      "vision-worker": {
+        "cpu_pct": 21.5,
+        "rss_mb": 233.0
+      },
+      "mediamtx": {
+        "cpu_pct": 7.5,
+        "rss_mb": 23.4
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 59.5,
+        "rss_mb": 432.4
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 1789
+    },
+    {
+      "t": 14.0,
+      "host_cpu_pct": 25.0,
+      "host_cpu_cores_busy": 1.0,
+      "vision-worker": {
+        "cpu_pct": 21.5,
+        "rss_mb": 236.5
+      },
+      "mediamtx": {
+        "cpu_pct": 6.0,
+        "rss_mb": 23.6
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 57.5,
+        "rss_mb": 432.4
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 1949
+    },
+    {
+      "t": 16.0,
+      "host_cpu_pct": 25.6,
+      "host_cpu_cores_busy": 1.02,
+      "vision-worker": {
+        "cpu_pct": 21.5,
+        "rss_mb": 239.9
+      },
+      "mediamtx": {
+        "cpu_pct": 7.5,
+        "rss_mb": 23.1
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 59.0,
+        "rss_mb": 432.4
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 2109
+    },
+    {
+      "t": 18.0,
+      "host_cpu_pct": 30.0,
+      "host_cpu_cores_busy": 1.2,
+      "vision-worker": {
+        "cpu_pct": 21.0,
+        "rss_mb": 243.6
+      },
+      "mediamtx": {
+        "cpu_pct": 7.0,
+        "rss_mb": 23.8
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 59.0,
+        "rss_mb": 432.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 2269
+    },
+    {
+      "t": 20.0,
+      "host_cpu_pct": 28.4,
+      "host_cpu_cores_busy": 1.14,
+      "vision-worker": {
+        "cpu_pct": 21.0,
+        "rss_mb": 246.8
+      },
+      "mediamtx": {
+        "cpu_pct": 7.0,
+        "rss_mb": 23.8
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 59.0,
+        "rss_mb": 432.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 2429
+    },
+    {
+      "t": 36.0,
+      "host_cpu_pct": 32.2,
+      "host_cpu_cores_busy": 1.29,
+      "vision-worker": {
+        "cpu_pct": 19.7,
+        "rss_mb": 273.4
+      },
+      "mediamtx": {
+        "cpu_pct": 6.4,
+        "rss_mb": 23.7
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 53.2,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 3.63,
+          "sampled_fps": 1.19,
+          "analyzed_fps": 1.19,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 4
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 14.94,
+          "analyzed_fps": 14.94,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 14.88,
+          "analyzed_fps": 14.88,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 3484
+    },
+    {
+      "t": 38.0,
+      "host_cpu_pct": 57.8,
+      "host_cpu_cores_busy": 2.31,
+      "vision-worker": {
+        "cpu_pct": 21.0,
+        "rss_mb": 275.3
+      },
+      "mediamtx": {
+        "cpu_pct": 7.0,
+        "rss_mb": 23.7
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 53.6,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 3644
+    },
+    {
+      "t": 40.0,
+      "host_cpu_pct": 75.8,
+      "host_cpu_cores_busy": 3.03,
+      "vision-worker": {
+        "cpu_pct": 20.5,
+        "rss_mb": 277.4
+      },
+      "mediamtx": {
+        "cpu_pct": 8.0,
+        "rss_mb": 23.8
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 51.0,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 3805
+    },
+    {
+      "t": 42.0,
+      "host_cpu_pct": 81.1,
+      "host_cpu_cores_busy": 3.24,
+      "vision-worker": {
+        "cpu_pct": 20.9,
+        "rss_mb": 279.2
+      },
+      "mediamtx": {
+        "cpu_pct": 6.5,
+        "rss_mb": 23.9
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 53.5,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 3965
+    },
+    {
+      "t": 44.0,
+      "host_cpu_pct": 60.0,
+      "host_cpu_cores_busy": 2.4,
+      "vision-worker": {
+        "cpu_pct": 21.1,
+        "rss_mb": 281.3
+      },
+      "mediamtx": {
+        "cpu_pct": 8.0,
+        "rss_mb": 23.8
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 54.1,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 4125
+    },
+    {
+      "t": 46.0,
+      "host_cpu_pct": 71.2,
+      "host_cpu_cores_busy": 2.85,
+      "vision-worker": {
+        "cpu_pct": 19.5,
+        "rss_mb": 283.3
+      },
+      "mediamtx": {
+        "cpu_pct": 5.5,
+        "rss_mb": 23.9
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 48.0,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 4284
+    },
+    {
+      "t": 48.0,
+      "host_cpu_pct": 28.8,
+      "host_cpu_cores_busy": 1.15,
+      "vision-worker": {
+        "cpu_pct": 20.0,
+        "rss_mb": 285.5
+      },
+      "mediamtx": {
+        "cpu_pct": 6.5,
+        "rss_mb": 23.8
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 50.5,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 4444
+    },
+    {
+      "t": 50.0,
+      "host_cpu_pct": 25.7,
+      "host_cpu_cores_busy": 1.03,
+      "vision-worker": {
+        "cpu_pct": 21.0,
+        "rss_mb": 287.7
+      },
+      "mediamtx": {
+        "cpu_pct": 7.5,
+        "rss_mb": 23.3
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 56.0,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 4605
+    },
+    {
+      "t": 52.0,
+      "host_cpu_pct": 26.4,
+      "host_cpu_cores_busy": 1.06,
+      "vision-worker": {
+        "cpu_pct": 20.0,
+        "rss_mb": 290.0
+      },
+      "mediamtx": {
+        "cpu_pct": 6.0,
+        "rss_mb": 23.9
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 52.0,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 4765
+    },
+    {
+      "t": 54.0,
+      "host_cpu_pct": 44.0,
+      "host_cpu_cores_busy": 1.76,
+      "vision-worker": {
+        "cpu_pct": 20.5,
+        "rss_mb": 292.3
+      },
+      "mediamtx": {
+        "cpu_pct": 7.0,
+        "rss_mb": 23.9
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 51.0,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 4925
+    },
+    {
+      "t": 56.0,
+      "host_cpu_pct": 67.2,
+      "host_cpu_cores_busy": 2.69,
+      "vision-worker": {
+        "cpu_pct": 21.0,
+        "rss_mb": 294.6
+      },
+      "mediamtx": {
+        "cpu_pct": 7.0,
+        "rss_mb": 23.8
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 55.0,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 5084
+    },
+    {
+      "t": 58.0,
+      "host_cpu_pct": 65.9,
+      "host_cpu_cores_busy": 2.64,
+      "vision-worker": {
+        "cpu_pct": 21.5,
+        "rss_mb": 297.1
+      },
+      "mediamtx": {
+        "cpu_pct": 7.0,
+        "rss_mb": 23.9
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 52.6,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 14.5,
+          "analyzed_fps": 14.5,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 5244
+    },
+    {
+      "t": 60.0,
+      "host_cpu_pct": 66.1,
+      "host_cpu_cores_busy": 2.64,
+      "vision-worker": {
+        "cpu_pct": 21.0,
+        "rss_mb": 299.5
+      },
+      "mediamtx": {
+        "cpu_pct": 6.5,
+        "rss_mb": 23.8
+      },
+      "ffmpeg publishers": {
+        "cpu_pct": 55.4,
+        "rss_mb": 379.5
+      },
+      "cameras": {
+        "cam01": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam02": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam03": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam04": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 15.0,
+          "analyzed_fps": 15.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam05": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam06": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam07": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        },
+        "cam08": {
+          "state": "STREAMING",
+          "decoded_fps": 25.0,
+          "sampled_fps": 5.0,
+          "analyzed_fps": 5.0,
+          "dropped": 0,
+          "decode_errors": 0,
+          "reconnects": 0
+        }
+      },
+      "observations_written": 5403
+    }
+  ],
+  "fault": {
+    "camera": "cam01",
+    "killed_at": 1793463551.555,
+    "to_reconnecting_s": 0.01,
+    "restarted_at": 1793463559.556,
+    "recovery_after_restart_s": 6.71,
+    "reconnects_total": 4
+  },
+  "final_status": {
+    "detector": "MOCK",
+    "ai_available": true,
+    "observations_written": 5404,
+    "frames_analyzed_total": 4951,
+    "analysis_errors_total": 0,
+    "sink": {
+      "kind": "jsonl",
+      "written_total": 5404
+    },
+    "cameras": [
+      {
+        "camera_id": "cam01",
+        "state": "STREAMING",
+        "state_since": 1793463566.240445,
+        "ring_seconds": 25.31879496574402,
+        "ring_bytes": 6399010,
+        "packets_total": 1484,
+        "frames_decoded_total": 1443,
+        "frames_sampled_total": 835,
+        "frames_dropped_total": 0,
+        "decode_errors_total": 0,
+        "reconnects_total": 4,
+        "clips_written_total": 0,
+        "last_error": "HTTPNotFoundError: [Errno 875574520] Server returned 404 Not Found: 'rtsp://127.0.0.1:50045/cam01'"
+      },
+      {
+        "camera_id": "cam02",
+        "state": "STREAMING",
+        "state_since": 1793463521.130609,
+        "ring_seconds": 70.39625358581543,
+        "ring_bytes": 396938,
+        "packets_total": 1805,
+        "frames_decoded_total": 1784,
+        "frames_sampled_total": 1055,
+        "frames_dropped_total": 0,
+        "decode_errors_total": 0,
+        "reconnects_total": 0,
+        "clips_written_total": 0,
+        "last_error": ""
+      },
+      {
+        "camera_id": "cam03",
+        "state": "STREAMING",
+        "state_since": 1793463521.16096,
+        "ring_seconds": 70.38955879211426,
+        "ring_bytes": 2396344,
+        "packets_total": 1805,
+        "frames_decoded_total": 1784,
+        "frames_sampled_total": 1054,
+        "frames_dropped_total": 0,
+        "decode_errors_total": 0,
+        "reconnects_total": 0,
+        "clips_written_total": 0,
+        "last_error": ""
+      },
+      {
+        "camera_id": "cam04",
+        "state": "STREAMING",
+        "state_since": 1793463521.1116102,
+        "ring_seconds": 70.43955421447754,
+        "ring_bytes": 710456,
+        "packets_total": 1806,
+        "frames_decoded_total": 1785,
+        "frames_sampled_total": 1052,
+        "frames_dropped_total": 0,
+        "decode_errors_total": 0,
+        "reconnects_total": 0,
+        "clips_written_total": 0,
+        "last_error": ""
+      },
+      {
+        "camera_id": "cam05",
+        "state": "STREAMING",
+        "state_since": 1793463521.1518757,
+        "ring_seconds": 70.3915045261383,
+        "ring_bytes": 61780192,
+        "packets_total": 1806,
+        "frames_decoded_total": 1784,
+        "frames_sampled_total": 352,
+        "frames_dropped_total": 0,
+        "decode_errors_total": 0,
+        "reconnects_total": 0,
+        "clips_written_total": 0,
+        "last_error": ""
+      },
+      {
+        "camera_id": "cam06",
+        "state": "STREAMING",
+        "state_since": 1793463521.170047,
+        "ring_seconds": 70.38579273223877,
+        "ring_bytes": 26501355,
+        "packets_total": 1805,
+        "frames_decoded_total": 1784,
+        "frames_sampled_total": 352,
+        "frames_dropped_total": 0,
+        "decode_errors_total": 0,
+        "reconnects_total": 0,
+        "clips_written_total": 0,
+        "last_error": ""
+      },
+      {
+        "camera_id": "cam07",
+        "state": "STREAMING",
+        "state_since": 1793463521.138936,
+        "ring_seconds": 70.39054107666016,
+        "ring_bytes": 583817,
+        "packets_total": 1805,
+        "frames_decoded_total": 1784,
+        "frames_sampled_total": 352,
+        "frames_dropped_total": 0,
+        "decode_errors_total": 0,
+        "reconnects_total": 0,
+        "clips_written_total": 0,
+        "last_error": ""
+      },
+      {
+        "camera_id": "cam08",
+        "state": "STREAMING",
+        "state_since": 1793463521.1477282,
+        "ring_seconds": 70.38856267929077,
+        "ring_bytes": 170885,
+        "packets_total": 1805,
+        "frames_decoded_total": 1784,
+        "frames_sampled_total": 352,
+        "frames_dropped_total": 0,
+        "decode_errors_total": 0,
+        "reconnects_total": 0,
+        "clips_written_total": 0,
+        "last_error": ""
+      }
+    ]
+  },
+  "summary": {
+    "vision-worker": {
+      "cpu_pct": {
+        "mean": 20.87,
+        "min": 19.5,
+        "max": 21.7
+      },
+      "rss_mb_max": 299.5
+    },
+    "mediamtx": {
+      "cpu_pct": {
+        "mean": 6.86,
+        "min": 5.5,
+        "max": 8.0
+      },
+      "rss_mb_max": 23.9
+    },
+    "ffmpeg publishers": {
+      "cpu_pct": {
+        "mean": 55.38,
+        "min": 48.0,
+        "max": 60.3
+      },
+      "rss_mb_max": 432.5
+    },
+    "host_cpu_pct": {
+      "mean": 42.51,
+      "min": 25.0,
+      "max": 81.1
+    },
+    "protected": {
+      "n": 4,
+      "target_fps": 15.0,
+      "sampled_fps": {
+        "mean": 14.98,
+        "min_camera": 14.95
+      },
+      "analyzed_fps": {
+        "mean": 14.98,
+        "min_camera": 14.95
+      },
+      "worst_interval_analyzed_fps": 14.5
+    },
+    "normal": {
+      "n": 4,
+      "target_fps": 5.0,
+      "sampled_fps": {
+        "mean": 5.0,
+        "min_camera": 5.0
+      },
+      "analyzed_fps": {
+        "mean": 5.0,
+        "min_camera": 5.0
+      },
+      "worst_interval_analyzed_fps": 5.0
+    },
+    "decoded_fps": {
+      "mean": 25.0,
+      "min_camera": 25.0
+    },
+    "input_fps": 25,
+    "totals": {
+      "frames_sampled_total": 5404,
+      "frames_dropped_total": 0,
+      "decode_errors_total": 0,
+      "reconnects_total": 4,
+      "frames_decoded_total": 13932,
+      "drop_rate": 0.0
+    },
+    "window_dropped": 0,
+    "window_decode_errors": 0,
+    "window_reconnects": 4,
+    "not_streaming_samples": 0
+  }
+}
