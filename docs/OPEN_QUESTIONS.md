@@ -49,4 +49,5 @@
 | OQ-P3 | What false-alert rate will staff tolerate? | ≤ ~1 high-priority false alert/facility/day |
 | OQ-P4 | Alert channels: wall tablet, siren, phone push, pager? | Wall tablet + local chime + push to leads |
 | OQ-P5 | Escalation chain and T_ack per facility? | 60 s to the room lead, then 120 s to the director |
+| OQ-P7 | Should dashboard status polling keep a session alive (wall tablets) or should idle staff be signed out after 15 min? | Recommend: polling doesn't extend sessions; add a dedicated always-on wall-display role later |
 | OQ-P6 | Sleep schedules available for C1 rules? | Entered per room by admin |

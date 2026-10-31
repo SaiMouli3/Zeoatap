@@ -55,14 +55,17 @@ Services are created only when their phase starts. No empty placeholders.
 ## Phases 3–6
 See FEATURE_ROADMAP. Tasks are broken down at each phase start.
 
+## Done since the plan was written (2026-10-31)
+Core service (API, auth/RBAC, SSE, alerts + escalation, encrypted clips + retention, audit chain, Postgres store; 1.5, 1.6), vision-worker live link to core and clip API (1.3, 1.4), AI pipeline wiring with YOLOX + tracker + RTMPose + FiDIP (2.3–2.5 *integration only, no fine-tuning*), dashboard (1.8, 2.6 partial: zones edited as JSON, 2.8), event-level eval harness (2.9), multi-camera soak (1.10, CPU only, 60 s runs).
+
 ## Next ten tasks (priority order)
 1. Engage counsel for the pilot jurisdiction (0.1)
-2. Recruit partner facility + site survey (0.4)
-3. Send ACLab/ICVD licensing enquiries (0.3)
-4. Record manikin test video for the no-training accuracy check (Phase 2 prerequisite)
-5. Replace the JSONL hand-off with a gRPC stream into a long-running core service (1.1, 1.5)
-6. Postgres-backed incident store + migrations tested in CI (1.6)
-7. Encrypt clips at rest and add retention deletion (1.4 follow-up)
-8. Multi-camera soak: 4–16 simulated cameras, CPU/decode limits measured (1.10)
-9. Minimal web: login + room health page (1.8)
-10. Re-run the GPU benchmark on the chosen edge SKU (L4) and add NVDEC decode throughput (1.9)
+2. Recruit partner facility + site survey; test against a **real IP camera** (0.4)
+3. Record and annotate manikin test video; run `tools/eval` for the first real accuracy numbers (Phase 2 gate)
+4. Fine-tune detector (infant class, IR) and infant pose on rights-cleared data (2.2–2.5)
+5. Re-run the GPU benchmark and the soak on the chosen edge GPU (L4), end to end incl. NVDEC decode (1.9, 1.10)
+6. Decide session policy for wall tablets (status polling currently keeps sessions alive) and add MFA + login rate limiting
+7. Buffer incidents locally while the database is down; retry failed clip captures
+8. Profile vision-worker at 32+ cameras (single analysis thread looks like the limit) and split analysis per GPU/process
+9. Visual zone editor on calibration snapshots (replace JSON editing)
+10. Cloud control plane: device enrolment, signed model/rule releases (needed before any rule may alert, ADR-008)

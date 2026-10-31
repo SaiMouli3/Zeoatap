@@ -13,6 +13,8 @@
 | SlowFast / X3D | Code | Apache-2.0 | Kinetics-trained | ✅ code; ⚠️ weights | — | Kinetics (YouTube) | …/facebookresearch/SlowFast/main/LICENSE | Candidate (P2) |
 | Video Swin | Code | Apache-2.0 | ImageNet/Kinetics | ✅ code; ⚠️ | — | — | …/SwinTransformer/Video-Swin-Transformer/master/LICENSE | Research |
 | YOLOX | Code | Apache-2.0 | COCO | ✅; ⚠️ weights | — | — | …/Megvii-BaseDetection/YOLOX/main/LICENSE | Candidate |
+| YOLOX-m / tiny (Human-Art), RTMPose-m / s (Body7) ONNX | Weights (in use) | Apache-2.0 code | Human-Art and Body7 training-data terms mixed/unchecked | ⚠️ check before sale | NOTICE | Data terms | download.openmmlab.com (rtmposev1 onnx_sdk); hashes in services/vision-worker/MODELS.md | **In use** |
+| opencv-python / opencv-contrib-python 5.0 | Library (pose extra) | Apache-2.0 | Bundles LGPL FFmpeg/Qt | ✅ with LGPL obligations | Notices | Same as OQ-L10 | PyPI | **In use** |
 | RT-DETR | Code | Apache-2.0 | COCO/Objects365 | ✅; ⚠️ | — | Objects365 terms | …/lyuwenyu/RT-DETR/main/LICENSE | Candidate |
 | RF-DETR | Code | Apache-2.0 (develop branch) | Per-checkpoint | ✅; verify per model | — | Some variants may differ | …/roboflow/rf-detr/develop/LICENSE | Candidate |
 | ByteTrack | Code | MIT | — | ✅ | Copyright notice | — | …/ifzhang/ByteTrack/main/LICENSE | Candidate |

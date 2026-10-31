@@ -18,7 +18,7 @@ flowchart LR
       VLM["vlm-worker (optional, P2)<br/>event-triggered summaries"]
     end
     VW --> RB
-    VW -->|Observations gRPC stream| CORE
+    VW -->|Observations NDJSON over HTTP, localhost| CORE
     CORE -->|clip request| VW
     VW -->|remuxed clip| EV
     CORE --> PG
@@ -26,7 +26,7 @@ flowchart LR
     WEB --> CORE
     CORE -.->|evidence id only| VLM
     VLM -.->|structured summary| CORE
-    STAFF[Staff tablets / workstations] -->|HTTPS + WebSocket| WEB
+    STAFF[Staff tablets / workstations] -->|HTTPS + server-sent events| WEB
     CORE --> SIREN[Local alert device / speaker]
   end
   subgraph Cloud["Cloud control plane (no video by default)"]

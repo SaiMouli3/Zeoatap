@@ -57,7 +57,7 @@ flowchart LR
       VLM["vlm-worker (optional, P2)<br/>event-triggered summaries"]
     end
     VW --> RB
-    VW -->|Observations gRPC stream| CORE
+    VW -->|Observations NDJSON over HTTP, localhost| CORE
     CORE -->|clip request| VW
     VW -->|remuxed clip| EV
     CORE --> PG
@@ -65,7 +65,7 @@ flowchart LR
     WEB --> CORE
     CORE -.->|evidence id only| VLM
     VLM -.->|structured summary| CORE
-    STAFF[Staff tablets / workstations] -->|HTTPS + WebSocket| WEB
+    STAFF[Staff tablets / workstations] -->|HTTPS + server-sent events| WEB
     CORE --> SIREN[Local alert device / speaker]
   end
   subgraph Cloud["Cloud control plane (no video by default)"]
@@ -322,12 +322,12 @@ flowchart TB
 | Process | Language | Contains | Why separate |
 |---|---|---|---|
 | `vision-worker` | Python 3.11/3.12 | RTSP ingest, decode, sampling, quality, detection, tracking, pose, feature extraction, ring buffer, clip cutting | GPU memory and crash isolation. Python ML ecosystem. Restartable without losing incidents |
-| `core` | Go | Event engine, incident store, alert dispatcher, REST/WebSocket API, auth/RBAC, health aggregation, retention jobs, audit, control-plane sync | Deterministic logic. Must stay alive when ML crashes. One binary, easy to test |
+| `core` | Go | Event engine, incident store, alert dispatcher, REST API + server-sent events, auth/RBAC, health aggregation, retention jobs, audit, control-plane sync | Deterministic logic. Must stay alive when ML crashes. One binary, easy to test |
 | `web` | Next.js/TypeScript | Dashboard | Different deploy cadence. Could be static-exported and served by core later |
 | `postgres` | — | Durable state | Standard |
 | `vlm-worker` (P2) | Python + vLLM | Clip summarization | Large GPU memory and slow, so it must not share fate with vision-worker |
 
-**Inter-process interface:** gRPC over a UNIX domain socket (`Observations` stream vision→core, `ClipRequest` core→vision). Contracts are in [`packages/contracts`](../packages/contracts/). **A broker (NATS JetStream) is introduced only** when there are ≥2 independent observation consumers or multiple GPU nodes per site ([ADR-006](architecture/adr/ADR-006-service-boundaries.md)).
+**Inter-process interface (as built):** NDJSON over HTTP on localhost with a shared bearer token (`POST /internal/v1/observations` vision→core, `POST /v1/clips` core→vision). Live updates to the dashboard use server-sent events (one-way is all the dashboard needs, with no extra dependency). gRPC was the original plan; the HTTP/NDJSON contract carries the same payload and can be swapped later. Contracts are in [`packages/contracts`](../packages/contracts/) ([API.md](../packages/contracts/API.md)). **A broker (NATS JetStream) is introduced only** when there are ≥2 independent observation consumers or multiple GPU nodes per site ([ADR-006](architecture/adr/ADR-006-service-boundaries.md)).
 
 **Why not Redis?** No requirement needs it. Ephemeral state lives in-process (core) or in Postgres. Redis would add another stateful service to secure and monitor.
 **Why not Kubernetes?** One appliance per site. Docker Compose + systemd is enough. Kubernetes is reconsidered only for the cloud control plane once there are many tenants.

@@ -52,4 +52,13 @@ Auth bypass, IDOR on clip IDs, token expiry, RBAC matrix enforcement, secrets-in
 | Bad config | invalid YAML | Keep last-known-good |
 
 ## 8. Executed in this repository (updated 2026-10-31)
-Go unit tests for `services/core/internal/eventengine` run with `go test ./...`. vision-worker: 16 unit tests plus 7 live tests over real RTSP (MediaMTX + ffmpeg synthetic test patterns), covering connect, 5 and 15 fps sampling, camera outage and recovery, clip remux, partial clips, black-camera detection, and vision-worker → Go engine end to end. The GPU inference-speed benchmark (`services/vision-worker/benchmark`) ran on an AWS GPU on synthetic inputs ([BENCHMARK_RESULTS](BENCHMARK_RESULTS.md)). No cameras, footage or trained models have been used. No accuracy has been measured.
+| Suite | Command | Result |
+|---|---|---|
+| Core (engine, store, evidence, alerts, server API/RBAC/e2e) | `cd services/core && GOTOOLCHAIN=local go test -race ./...` (Postgres on :15432) | all packages pass |
+| vision-worker (unit, sink, clip API, detection smoke, live RTSP via MediaMTX) | `cd services/vision-worker && uv run pytest -q` | 53 passed |
+| Dashboard | `cd apps/web && npx tsc --noEmit && npx eslint . && npx next build && node e2e/run.mjs` | clean; 21/21 e2e passed |
+| Eval harness | `cd tools/eval && uv run pytest -q` | 45 passed |
+| Soak tooling | `cd tools/soak && uv run pytest -q`; runs in [tools/soak/RESULTS.md](../tools/soak/RESULTS.md) | 2 passed; 14 measured runs |
+| GPU inference benchmark | see [BENCHMARK_RESULTS](BENCHMARK_RESULTS.md) | speed only |
+
+All inputs are synthetic test patterns or a public-domain photo of adults. **No real camera, no infant footage and no accuracy measurement yet.**
