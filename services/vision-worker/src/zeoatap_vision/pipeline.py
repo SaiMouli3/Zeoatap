@@ -109,12 +109,19 @@ class PosePipeline:
         self.frames_total = 0
         self.errors_total = 0
         self.consecutive_errors = 0
+        self.last_error_t = 0.0
         self.last_ms = {"detect": 0.0, "track": 0.0, "pose": 0.0, "infant_pose": 0.0, "total": 0.0}
         self.total_ms_sum = 0.0
 
+    RETRY_AFTER_S = 5.0
+
     @property
     def available(self) -> bool:
-        return self.loaded and self.consecutive_errors < 3
+        """False after 3 consecutive failures (core shows AI_UNAVAILABLE); a
+        new attempt is allowed every RETRY_AFTER_S and one success restores it."""
+        if not self.loaded:
+            return False
+        return self.consecutive_errors < 3 or time.monotonic() - self.last_error_t >= self.RETRY_AFTER_S
 
     def detect(self, frame: np.ndarray) -> list[dict]:  # Detector protocol compatibility
         raise RuntimeError("PosePipeline needs analyze() with an RGB frame")
@@ -128,6 +135,7 @@ class PosePipeline:
             except Exception:
                 self.errors_total += 1
                 self.consecutive_errors += 1
+                self.last_error_t = time.monotonic()
                 raise
             self.consecutive_errors = 0
             return tracks

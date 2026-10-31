@@ -3,7 +3,7 @@
 // Signed-in application state: who am I, facility overview, incident list,
 // the live event stream (with reconnect + full re-fetch), toasts and sound.
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { api, setUnauthorizedHandler } from "./api";
 import { eventLabel, worstState } from "./present";
 import { enableSound, disableSound, playChime, soundSupported } from "./sound";
@@ -17,6 +17,8 @@ import type {
   Overview,
   Permission,
 } from "./types";
+
+const noopSubscribe = () => () => {};
 
 /** Overview is polled this often, in addition to live events. */
 export const OVERVIEW_POLL_MS = 5_000;
@@ -111,7 +113,7 @@ export function AppProvider({ me, onSignedOut, children }: { me: Me; onSignedOut
   const [live, setLive] = useState<AppState["live"]>({ status: "connecting", downSince: null, reconnectAt: null });
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [soundEnabled, setSoundEnabled] = useState(false);
-  const [soundOk, setSoundOk] = useState(false);
+  const soundOk = useSyncExternalStore(noopSubscribe, soundSupported, () => false);
   const [alertPulse, setAlertPulse] = useState(0);
 
   const soundRef = useRef(false);
@@ -119,10 +121,6 @@ export function AppProvider({ me, onSignedOut, children }: { me: Me; onSignedOut
   const toastSeq = useRef(0);
   const signedOut = useRef(false);
   const reconnectRef = useRef<() => void>(() => {});
-
-  useEffect(() => {
-    setSoundOk(soundSupported());
-  }, []);
 
   // 401 anywhere → session over.
   useEffect(() => {
@@ -178,6 +176,8 @@ export function AppProvider({ me, onSignedOut, children }: { me: Me; onSignedOut
 
   // Polling: overview every 5 s (drives the staleness check), incidents every 30 s.
   useEffect(() => {
+    // Fetch-on-mount: loads from the API (an external system); state is only set after the response.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void refreshAll();
     const a = setInterval(() => void refreshOverview(), OVERVIEW_POLL_MS);
     const b = setInterval(() => void refreshIncidents(), INCIDENT_POLL_MS);

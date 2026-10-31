@@ -101,13 +101,13 @@ class ProportionRoleClassifier:
 class RoleSmoother:
     """Per-track EMA of P(infant) with hysteresis. State lives in track.data."""
 
-    def __init__(self, alpha: float = 0.3, up: float = 0.58, down: float = 0.42):
+    def __init__(self, alpha: float = 0.2, up: float = 0.6, down: float = 0.4):
         self.alpha, self.up, self.down = alpha, up, down
 
     def update(self, data: dict, p: float | None) -> str:
         if p is not None:
-            prev = data.get("p_infant")
-            data["p_infant"] = p if prev is None else (1 - self.alpha) * prev + self.alpha * p
+            prev = data.get("p_infant", 0.5)  # neutral prior: a new track needs 2+ frames of evidence
+            data["p_infant"] = (1 - self.alpha) * prev + self.alpha * p
         role = data.get("role", "adult")
         ema = data.get("p_infant")
         if ema is not None:

@@ -1681,8 +1681,7 @@ main {
     transition: none !important;
   }
   .alert-pulse {
-    opacity: 1;
-    border-width: 4px;
+    display: none;
   }
 }
 

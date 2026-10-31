@@ -1,0 +1,24 @@
+{
+  "cameras": [
+    {
+      "id": "cam01",
+      "url": "rtsp://127.0.0.1:44743/cam01",
+      "protected": true
+    },
+    {
+      "id": "cam02",
+      "url": "rtsp://127.0.0.1:44743/cam02",
+      "protected": true
+    },
+    {
+      "id": "cam03",
+      "url": "rtsp://127.0.0.1:44743/cam03",
+      "protected": false
+    },
+    {
+      "id": "cam04",
+      "url": "rtsp://127.0.0.1:44743/cam04",
+      "protected": false
+    }
+  ]
+}

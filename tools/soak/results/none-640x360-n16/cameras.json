@@ -1,0 +1,84 @@
+{
+  "cameras": [
+    {
+      "id": "cam01",
+      "url": "rtsp://127.0.0.1:35827/cam01",
+      "protected": true
+    },
+    {
+      "id": "cam02",
+      "url": "rtsp://127.0.0.1:35827/cam02",
+      "protected": true
+    },
+    {
+      "id": "cam03",
+      "url": "rtsp://127.0.0.1:35827/cam03",
+      "protected": true
+    },
+    {
+      "id": "cam04",
+      "url": "rtsp://127.0.0.1:35827/cam04",
+      "protected": true
+    },
+    {
+      "id": "cam05",
+      "url": "rtsp://127.0.0.1:35827/cam05",
+      "protected": true
+    },
+    {
+      "id": "cam06",
+      "url": "rtsp://127.0.0.1:35827/cam06",
+      "protected": true
+    },
+    {
+      "id": "cam07",
+      "url": "rtsp://127.0.0.1:35827/cam07",
+      "protected": true
+    },
+    {
+      "id": "cam08",
+      "url": "rtsp://127.0.0.1:35827/cam08",
+      "protected": true
+    },
+    {
+      "id": "cam09",
+      "url": "rtsp://127.0.0.1:35827/cam09",
+      "protected": false
+    },
+    {
+      "id": "cam10",
+      "url": "rtsp://127.0.0.1:35827/cam10",
+      "protected": false
+    },
+    {
+      "id": "cam11",
+      "url": "rtsp://127.0.0.1:35827/cam11",
+      "protected": false
+    },
+    {
+      "id": "cam12",
+      "url": "rtsp://127.0.0.1:35827/cam12",
+      "protected": false
+    },
+    {
+      "id": "cam13",
+      "url": "rtsp://127.0.0.1:35827/cam13",
+      "protected": false
+    },
+    {
+      "id": "cam14",
+      "url": "rtsp://127.0.0.1:35827/cam14",
+      "protected": false
+    },
+    {
+      "id": "cam15",
+      "url": "rtsp://127.0.0.1:35827/cam15",
+      "protected": false
+    },
+    {
+      "id": "cam16",
+      "url": "rtsp://127.0.0.1:35827/cam16",
+      "protected": false
+    }
+  ]
+}

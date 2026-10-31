@@ -1,0 +1,7 @@
+warning: The `UV_NATIVE_TLS` environment variable is deprecated and will be removed in a future release. Use `UV_SYSTEM_CERTS` instead.
+warning: `VIRTUAL_ENV=.venv` does not match the project environment path `/home/user/Zeoatap/services/vision-worker/.venv` and will be ignored; use `--active` to target the active environment instead
+2026-10-31 16:09:36,024 WARNING root $ZEOATAP_INTERNAL_TOKEN not set: POST /v1/clips is disabled
+2026-10-31 16:09:37,789 INFO zeoatap_vision.camera camera cam01: CONNECTING -> STREAMING
+2026-10-31 16:09:37,806 INFO zeoatap_vision.camera camera cam02: CONNECTING -> STREAMING
+2026-10-31 16:09:37,855 INFO zeoatap_vision.camera camera cam03: CONNECTING -> STREAMING
+2026-10-31 16:09:37,874 INFO zeoatap_vision.camera camera cam04: CONNECTING -> STREAMING

@@ -16,7 +16,8 @@
 //   POST /__mock/reset                  {scenario?: "default" | "all_ok"}
 //   POST /__mock/scenario               {name: "default" | "all_ok" | "audit_broken"}
 //   POST /__mock/camera_state           {camera_id, state}            -> emits camera_state
-//   POST /__mock/incident               {room_id?, event_type?, status?} -> creates + emits incident_created + alert
+//   POST /__mock/incident               {room_id?, event_type?, status?, silent?} -> creates + emits incident_created + alert
+//   POST /__mock/resolve                {id, disposition?, actor?}    -> resolves without broadcasting (409 tests)
 //   POST /__mock/emit                   {type, data}                  -> raw SSE event
 //   POST /__mock/sse/drop               {refuse_ms?: number}          -> closes streams, refuses reconnects for refuse_ms
 //   POST /__mock/sessions/expire        {}                            -> invalidates every session
@@ -234,7 +235,9 @@ function visibleIncidents(user, includeShadow) {
 }
 
 const summary = (i) => {
-  const { actions: _a, clips: _c, ...rest } = i; // eslint-disable-line no-unused-vars
+  const rest = { ...i };
+  delete rest.actions;
+  delete rest.clips;
   return rest;
 };
 
@@ -566,9 +569,21 @@ async function mockControl(req, res, p) {
         uncertainty: "low", visibility: "good",
       });
       db.incidents.unshift(i);
+      if (body.silent) return send(res, 200, i);
       const shadow = i.status === "SHADOW";
       broadcast("incident_created", i, { shadow });
       if (i.status === "ALERTED") broadcast("alert", { incident_id: i.id, room_id: i.room_id, event_type: i.event_type, level: 0 });
+      return send(res, 200, i);
+    }
+    case "/__mock/resolve": {
+      // Resolves an incident WITHOUT broadcasting, to simulate a concurrent reviewer (409 path).
+      const i = db.incidents.find((x) => x.id === body.id);
+      if (!i) return err(res, 404, "no such incident");
+      i.lifecycle = "resolved";
+      i.disposition = body.disposition ?? "no_concern";
+      i.resolved_by = body.actor ?? "other-reviewer";
+      i.resolved_at = iso();
+      i.actions.push({ actor: i.resolved_by, action: "disposition", disposition: i.disposition, note: null, at: iso() });
       return send(res, 200, i);
     }
     case "/__mock/emit":

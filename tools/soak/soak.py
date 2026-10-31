@@ -209,6 +209,11 @@ def run(a) -> dict:
                         pass
 
     signal.signal(signal.SIGTERM, lambda *_: (cleanup(), sys.exit(143)))
+    # Other workloads on a shared machine distort host CPU: record them first.
+    psutil.cpu_percent(None)
+    time.sleep(3)
+    result["baseline_host_cpu_pct"] = psutil.cpu_percent(None)
+    result["loadavg_before"] = os.getloadavg()
     try:
         mtx = subprocess.Popen([a.mediamtx, str(work / "mediamtx.yml")], start_new_session=True,
                                stdout=open(work / "mediamtx.log", "w"), stderr=subprocess.STDOUT)
@@ -275,6 +280,7 @@ def run(a) -> dict:
             samples.append(row)
             prev, t_prev = {c["camera_id"]: c for c in st["cameras"]}, now
         final = get_json(st_url)
+        result["loadavg_after"] = os.getloadavg()
         result.update(samples=samples, fault=fault or None, final_status=final,
                       summary=_summarize(samples, cams, final, fault_cam, a))
     finally:

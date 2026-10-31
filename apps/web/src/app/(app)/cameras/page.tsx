@@ -183,6 +183,8 @@ function CamerasInner() {
     }
   }, []);
   useEffect(() => {
+    // Fetch-on-mount: loads from the API (an external system); state is only set after the response.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void load();
   }, [load]);
   useEffect(

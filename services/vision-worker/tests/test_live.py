@@ -49,7 +49,8 @@ def rtsp_server(tmp_path):
     port = free_port()
     conf = tmp_path / "mediamtx.yml"
     conf.write_text(
-        f"logLevel: warn\nrtspAddress: 127.0.0.1:{port}\nrtsp: yes\nrtmp: no\nhls: no\n"
+        # TCP only: no fixed UDP RTP/RTCP ports (8000/8001), so tests can run next to another MediaMTX.
+        f"logLevel: warn\nrtspAddress: 127.0.0.1:{port}\nrtspTransports: [tcp]\nrtsp: yes\nrtmp: no\nhls: no\n"
         "webrtc: no\nsrt: no\napi: no\nmetrics: no\npprof: no\nplayback: no\n"
         "paths:\n  all_others:\n"
     )
